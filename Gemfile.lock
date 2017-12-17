@@ -104,11 +104,8 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
-<<<<<<< HEAD
-    popper_js (1.12.5)
-=======
     orm_adapter (0.5.0)
->>>>>>> c3c70a8ac7a1b6ab235e69af2c780dfb075429be
+    popper_js (1.12.5)
     public_suffix (3.0.1)
     puma (3.11.0)
     rack (2.0.3)
