@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217073733) do
+ActiveRecord::Schema.define(version: 20171217133252) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -97,7 +97,9 @@ ActiveRecord::Schema.define(version: 20171217073733) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "tax_id"
     t.index ["brand_id"], name: "index_products_on_brand_id"
+    t.index ["tax_id"], name: "index_products_on_tax_id"
   end
 
   create_table "shop_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -160,6 +162,16 @@ ActiveRecord::Schema.define(version: 20171217073733) do
     t.index ["user_id"], name: "index_stocks_on_user_id"
   end
 
+  create_table "taxes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "goods_type"
+    t.float "sgst", limit: 24
+    t.float "cgst", limit: 24
+    t.float "igst", limit: 24
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -188,6 +200,7 @@ ActiveRecord::Schema.define(version: 20171217073733) do
   add_foreign_key "districts", "states"
   add_foreign_key "price_variations", "products"
   add_foreign_key "products", "brands"
+  add_foreign_key "products", "taxes"
   add_foreign_key "shops", "cities"
   add_foreign_key "shops", "countries"
   add_foreign_key "shops", "districts"

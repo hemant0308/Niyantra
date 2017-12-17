@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  goods_type: MyString
+  sgst: 1.5
+  cgst: 1.5
+  igst: 1.5
+  description: MyText
+
+two:
+  goods_type: MyString
+  sgst: 1.5
+  cgst: 1.5
+  igst: 1.5
+  description: MyText
