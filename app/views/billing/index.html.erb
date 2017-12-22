@@ -1,0 +1,76 @@
+<% provide(:title,'Billing') %>
+<% provide(:home,'active') %>
+<div class="page-content">
+	<div class="content form-container">		
+		<%= form_for(:bill) do |bill| %>
+		<div class="sub-form mx-4" id="cust_form_contaner">
+			<%= bill.fields_for(:customer) do |customer| %>
+				<div class="row">
+					<div class="col-md-3 col-xs-4 col-sm-12">
+						<div class="form-group">	
+							<%= customer.label(:name,'Cusomer name') %>
+							<%= customer.text_field(:name,class:'form-control') %>	
+						</div>		
+					</div>
+					<div class="col-md-3 col-xs-4 col-sm-12">
+						<div class="form-group">	
+							<%= customer.label(:phone,'Phone') %>
+							<%= customer.text_field(:phone,class:'form-control') %>	
+						</div>		
+					</div>
+					<div class="col-md-3 col-xs-4 col-sm-12">
+						<div class="form-group">	
+							<%= customer.label(:email,'Email') %>
+							<%= customer.text_field(:email,class:'form-control') %>	
+						</div>		
+					</div>
+					<div class="col-md-3 col-xs-4 col-sm-12">
+						<div class="form-group">	
+							<%= customer.label(:email,'Address') %>
+							<%= customer.text_area(:email,class:'form-control') %>	
+						</div>		
+					</div>
+				</div>
+			<% end %>
+		</div>
+		<div class="sub-form mx-4">
+			<%= fields_for(:product) do |product| %>
+				<div class="row">
+					<div class="col-md-3 col-xs-3 col-sm-12">
+						<div class="form-group">
+							<%= product.label(:code,'Code') %>
+							<%= product.text_field(:code,class:'form-control') %>
+						</div>
+					</div>
+					<div class="col-md-3 col-md-3 col-xs-3 col-sm-12">
+						<div class="form-group">
+							<%= product.label(:quantity,'quantity') %>
+							<%= product.text_field(:quantity,class:'form-control') %>
+						</div>
+					</div>
+					<div class="col-md-3 col-md-3 col-xs-3 col-sm-12">
+						<div class="form-group">
+							<%= product.label(:price,'Price') %>
+							<%= product.text_field(:price,class:'form-control') %>
+						</div>
+					</div>					
+				</div>
+			<% end %>
+		</div>
+		<div class="sub-form mx-4" id="item_container">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Item name</th>
+						<th>Desciption</th>
+						<th>Quantity</th>
+						<th>Price</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr><td></td><td></td><td></td><td></td></tr>
+				</tbody>
+			</table>
+		</div>
+	<% end %>
+	</div>

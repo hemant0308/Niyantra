@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171217151323) do
+ActiveRecord::Schema.define(version: 20171222105939) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
     t.bigint "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "quantity"
+    t.float "price", limit: 24
     t.index ["bill_id"], name: "index_bill_items_on_bill_id"
     t.index ["product_id"], name: "index_bill_items_on_product_id"
   end
