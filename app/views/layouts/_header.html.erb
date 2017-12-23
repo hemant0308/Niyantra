@@ -1,6 +1,6 @@
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
                 
-                <a class="navbar-brand" href="#">Shop name</a>
+                <a class="navbar-brand" href="#"><i class="fa fa-building-o"></i> Shop name</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown-1"
                         aria-controls="navbarNavDropdown-1"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -9,36 +9,40 @@
                 <div class="collapse navbar-collapse" id="navbarNavDropdown-1">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item <%= yield(:home) %>">
-                            <a class="nav-link" href="#">Home
-                                <span class="sr-only">(current)</span>
-                            </a>
+                            <%= link_to '<i class="fa fa-home"></i> Home'.html_safe,home_path,class:"nav-link" %>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Features</a>
+                        <li class="nav-item <%= yield(:billing) %>">
+                            <%= link_to '<i class="fa fa-file-text-o"></i> billing'.html_safe, billing_path,class:"nav-link" %>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Pricing</a>
+                        <li class="nav-item <%= yield(:customers) %> ">
+                            <%= link_to '<i class="fa fa-users"></i> Customers'.html_safe, customers_path,class:"nav-link" %>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown <%= yield(:stock) %>">
                             <a class="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink"
                                data-toggle="dropdown" aria-haspopup="true"
                                aria-expanded="false">
-                                Services
+                                <i class="fa fa-shopping-cart"></i> Stock
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a class="dropdown-item" href="#">Design</a>
-                                <a class="dropdown-item" href="#">Development</a>
-                                <a class="dropdown-item" href="#">Marketing</a>
+                                <%= link_to 'stock'.html_safe, stock_path,class:"dropdown-item" %>
+                                <%= link_to 'products'.html_safe, stock_path,class:"dropdown-item" %>
                             </div>
                         </li>
                     </ul>
 
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="#"><i class="fa fa-twitter"></i></a>
+                    <ul class="navbar-nav float-right">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink"
+                               data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                        user name
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <%= link_to '<i class="fa fa-user"></i> profile'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
+                                <%= link_to '<i class="fa fa-sign-out"></i> Sign out'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
+                            </div>
                         </li>
-
-                        <li class="nav-item">
+                    <!--    <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fa fa-facebook"></i></a>
                         </li>
 
@@ -48,7 +52,7 @@
 
                         <li class="nav-item">
                             <a class="nav-link" href="#"><i class="fa fa-github"></i></a>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
             </nav>
