@@ -1,8 +1,10 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
-$(document).ready(function(){
+var ready;
+ready = function(){
 	var building = false;
-	$('#stock_product_count').keyup(function(event){
+	$('#stock_product_count').change(function(event){
+		window.alert('asdf');
 		var count = parseInt($(this).val());
 		if(count <=0 || count >50  || building){
 			return;
@@ -10,13 +12,18 @@ $(document).ready(function(){
 		if(!count){
 			count = 1;
 		}
-		building =true;
-		var $tr = $('#stock_products tr:first-child').clone();
-		$('#stock_products').html('');
-		for(var i=0;i<count;i++){	
-			$('#stock_products').append($tr);	
-			$tr = $('#stock_products tr:first-child').clone();
-		}	
+		var cur_cnt = $('#stock_products tr').length;
+		if(cur_cnt < count){
+			for(var i=cur_cnt;i<count;i++){
+				var $tr = $('#stock_products tr:first-child').clone();
+				$($tr).removeClass('d-none');	
+				$('#stock_products').append($tr);
+			}			
+		}else{
+			$($('#stock_products tr').slice(count,cur_cnt+1)).remove();
+		}
+
 		building = false;
 	})
-})
+}
+$(document).on('turbolinks:load',ready);

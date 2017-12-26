@@ -16,5 +16,41 @@
 }
 .stock-form{
 	margin: 10px;
-	
+}
+.form-control{
+	font-size: 12px;
+	padding: 2px 4px;
+	margin: 5px;
+	display: inline;
+}
+select.form-control{
+	padding: 0px 2px;
+	height: 1.75rem !important;
+}
+.form-group label{
+	font-size: 15px;
+	margin-left: 10px;
+}
+.stock-products-container{
+
+	.stock-products table{
+		thead{
+			display: table;
+			width: 100%;
+		}
+		tbody{
+			height: 300px;
+			overflow-y: scroll;
+			display: block;
+			width: 100%;
+		}
+		tr{
+			width: 100%;
+			table-layout: fixed;
+			display: table;
+		}
+	}
+}
+.table tr td,.table tr th{
+	text-align: center;
 }

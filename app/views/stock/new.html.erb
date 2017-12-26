@@ -1,12 +1,8 @@
 <% provide(:title,'New stock') %>
 <% provide(:stock,'active') %>
 <div class="main">
-<!--
-    <div class="action-part">
-    	<button class="float-right btn btn-pill btn-outline-primary" type="button" data-toggle="modal" data-target="#new_product_modal">Add products</button>
-    </div> -->
     <div class="stock-form">
-        <%= form_for(:stock,method:'post') do |stock| %>
+        <%= form_for(:stock,method:'post',:html=>{}) do |stock| %>
             <div class="row">
                 <div class="col-md-4 col-xs-4 col-sm-12">
                     <div class="form-group">
@@ -39,37 +35,64 @@
                     </div>
                 </div>
             </div>
-            <div class="action-part">
-    			<button class="float-right btn  btn-primary"><i class="fa fa-cart-plus"></i> save stock</button>
-    		</div>
             <div class="stock-products-container">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Type</th>
-                            <th>Brand</th>
-                            <th>price</th>
-                            <th>Quantity</th>
-                            <th>Offer</th>
-                            <th>Offer price</th>
-                        </tr>
-                    </thead>
-                    <tbody id="stock_products">
-                    	<tr>
-                    		<td><%= select_tag(:type,options_for_select(@types),{:class=>'form-control',:name=>'product[type][]'}) %></td>
-                    		<td><%= select_tag(:brand,options_for_select(@brands),{:class=>'form-control',:name=>'product[type][]'}) %></td>
-                    		<td><%= text_field_tag(:price,'',class:'form-control',name:'product[price][]') %></td>
-                    		<td><%= text_field_tag(:quantity,'',class:'form-control',name:'product[quantity][]') %></td>
-                    		<td><%= select_tag(:brand,options_for_select([['discount',1],['cutoff',2]]),{:class=>'form-control',:name=>'product[offer_type][]'}) %></td>
-                    		<td><%= text_field_tag(:offer,'',class:'form-control',name:'product[offer][]') %></td>
-                    	</tr>
-                    </tbody>
-                </table>
+                <div class="stock-products">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th width="13%">Type</th>
+                                <th width="10%">Brand</th>
+                                <th width="13%">Color</th>
+                                <th width="10%">Size</th>
+                                <th width="13%">Current price</th>
+                                <th width="10%">Offer type</th>
+                                <th width="10%">Offer</th>
+                                <th width="12%">Effective date</th>
+                                <th width="10%">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stock_products">
+                        <% (1..5).each do |i| %>    
+                            <tr>
+                                <td>
+                                    <%= select_tag(:type,options_for_select(@types),{:class=>'form-control',:name=>'product[][type_id]'}) %>
+                                </td>
+                                <td>
+                                    <%= select_tag(:brand,options_for_select(@sizes),{:class=>'form-control',:name=>'product[][size_id]'}) %>
+                                </td>
+                                <td>
+                                    <%= select_tag(:color,options_for_select(@colors),{:class=>'form-control',:name=>'product[][color_id]'}) %>
+                                </td>
+                                <td>
+                                    <%= select_tag(:size,options_for_select(@colors),{:class=>'form-control',:name=>'product[][size_id]'}) %>
+                                </td>
+                                <td>
+                                    <%= text_field_tag(:current_price,'',class:'form-control',name:'product[][current_price]') %>
+                                </td>
+                                <td>
+                                    <%= select_tag(:offer_type,options_for_select([['discount',1],['cutoff',2]]),{:class=>'form-control',:name=>'product[][offer_type]'}) %>
+                                </td>
+                                <td>
+                                    <%= text_field_tag(:offer,'',class:'form-control',name:'product[][offer]') %>
+                                </td>
+                                <td>
+                                    <%= text_field_tag(:effective_date,'',class:'form-control',name:'product[][effective_date]') %>
+                                </td>
+                                <td>
+                                    <%= text_field_tag(:quantity,'',class:'form-control',name:'product[][quantity]') %>
+                                </td>
+                            </tr>
+                        <% end %>    
+                        </tbody>
+                    </table>
+                </div>
+                <div class="action-part">
+                    <button class="float-right btn  btn-primary"><i class="fa fa-cart-plus"></i> save stock</button>
+                </div>
             </div>
             <% end %>
     </div>
 </div>
-
 <div class="modal fade" id="new_product_modal" tabindex="-1" role="dialog" aria-labelledby="Add new stock" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
