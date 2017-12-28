@@ -12,19 +12,32 @@ class StockController < ApplicationController
 		@stock = stock_params
 		@stock[:shop_id] = current_shop
 		@stock[:user_id] = current_user
-		render 'json':params
 		stock = Stock.new(@stock)
+		can_commit = true
 		if stock.save
 			stock_id = stock.id
 			products = params[:product]
 			products.each do |product|
-
+				product[:shop_id] = current_shop
+				product = Product.new(product_params(product))
+				render 'json':product
+				return
+				can_commit &= product.save;
 			end
 		else
-			render 'new'
-		end		
+			if can_commit
+				redirect_to stock_path
+			else
+				render new
+			end
+		end			
 	end
 	private
 		def stock_params
 			params.require(:stock).permit(:supplier_name,:total_quantity,:total_price,:paid_amount)
-end		end
+		end
+		def product_params(params)
+			params.permit(:brand_id,:current_price,:quantity,:offer,:offer_type)
+		end
+end
+

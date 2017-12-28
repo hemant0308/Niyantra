@@ -1,0 +1,2 @@
+class ProductProperty < ApplicationRecord
+end

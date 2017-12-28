@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171222105939) do
+ActiveRecord::Schema.define(version: 20171227072521) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -87,6 +87,16 @@ ActiveRecord::Schema.define(version: 20171222105939) do
     t.index ["product_id"], name: "index_price_variations_on_product_id"
   end
 
+  create_table "product_properties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "property_id"
+    t.bigint "product_id"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_product_properties_on_product_id"
+    t.index ["property_id"], name: "index_product_properties_on_property_id"
+  end
+
   create_table "products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "brand_id"
     t.string "name"
@@ -104,6 +114,14 @@ ActiveRecord::Schema.define(version: 20171222105939) do
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["shop_id"], name: "index_products_on_shop_id"
     t.index ["tax_id"], name: "index_products_on_tax_id"
+  end
+
+  create_table "properties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.integer "is_referenced"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "shop_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
