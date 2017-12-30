@@ -8,5 +8,10 @@ Rails.application.routes.draw do
   get '/stock/new'=>'stock#new'
   post '/stock/new'=>'stock#create'
   get '/products' => 'product#index'
+  #admin namespace
+  namespace :admin do
+    get '/controls', to: 'dashboard#index'
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
