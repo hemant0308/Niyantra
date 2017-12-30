@@ -16,4 +16,5 @@
 //= require jquery-ui
 //= require popper
 //= require bootstrap
-//= require_tree 
+//= require shards
+//= require demo

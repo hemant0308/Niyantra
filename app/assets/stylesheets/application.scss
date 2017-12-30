@@ -10,11 +10,12 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require custom
- *= require jquery-ui
- *= require shards.min
- *= require_self
- *= require billing
- *= require stock
- *= require product
  */
+@import "bootstrap";
+@import "shards.min";
+@import "font-awesome";
+@import "datatables.min";
+@import "jquery-ui";
+@import "custom";
+@import "billing";
+@import "stock";
