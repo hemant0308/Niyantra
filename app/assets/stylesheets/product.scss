@@ -1,3 +1,31 @@
 // Place all the styles related to the product controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+.properties-table-container{
+	table{
+
+		thead{
+			font-weight: 300;
+			font-size: 14px;	
+		}
+		tbody{
+			max-height: 150px;
+			overflow-y: scroll;
+			font-size: 16px;
+			font-weight: 400;
+			display: block;
+			width: 100%;
+		}
+		tr{
+			width: 100%;
+			display: table;
+			padding:5px;
+		}
+		td,th{
+			width: 50%;
+		}
+	}	
+}
+.ui-front{
+	z-index: 99999;
+}

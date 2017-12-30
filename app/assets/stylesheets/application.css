@@ -11,8 +11,10 @@
  * It is generally better to create a new file per style scope.
  *
  *= require custom
+ *= require jquery-ui
  *= require shards.min
  *= require_self
  *= require billing
  *= require stock
+ *= require product
  */

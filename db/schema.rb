@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171227072521) do
+ActiveRecord::Schema.define(version: 20171230080404) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -111,9 +111,11 @@ ActiveRecord::Schema.define(version: 20171227072521) do
     t.datetime "updated_at", null: false
     t.bigint "tax_id"
     t.bigint "shop_id"
+    t.bigint "type_id"
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["shop_id"], name: "index_products_on_shop_id"
     t.index ["tax_id"], name: "index_products_on_tax_id"
+    t.index ["type_id"], name: "index_products_on_type_id"
   end
 
   create_table "properties", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -122,6 +124,7 @@ ActiveRecord::Schema.define(version: 20171227072521) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "data"
   end
 
   create_table "shop_categories", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -194,6 +197,13 @@ ActiveRecord::Schema.define(version: 20171227072521) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.text "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -224,6 +234,7 @@ ActiveRecord::Schema.define(version: 20171227072521) do
   add_foreign_key "products", "brands"
   add_foreign_key "products", "shops"
   add_foreign_key "products", "taxes"
+  add_foreign_key "products", "types"
   add_foreign_key "shops", "cities"
   add_foreign_key "shops", "countries"
   add_foreign_key "shops", "districts"

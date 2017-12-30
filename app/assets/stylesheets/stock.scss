@@ -18,11 +18,12 @@
 	margin: 10px;
 }
 .form-control{
-	font-size: 12px;
-	padding: 2px 4px;
-	padding-left: 5px;
+	font-size: 15px;
+	padding: 4px 8px;
+	padding-left: 10px;
 	margin: 5px;
 	display: inline;
+	font-weight: 700;
 }
 select.form-control{
 	padding: 0px 2px;
@@ -32,6 +33,7 @@ select.form-control{
 .form-group label{
 	font-size: 15px;
 	margin-left: 10px;
+	margin-top: 5px;
 }
 .stock-products-container{
 

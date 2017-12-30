@@ -7,5 +7,8 @@ class ApplicationController < ActionController::Base
   def current_shop
   	@current_shop ||= 1
   end
-  helper :all	
+  def get_connection
+  	@connection ||= ActiveRecord::Base.connection
+  end
+  helper :all
 end
