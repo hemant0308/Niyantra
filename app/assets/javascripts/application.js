@@ -14,7 +14,12 @@
 //= require turbolinks
 //= require jquery3
 //= require jquery-ui
+//= require jquery.validate.min
+//= require numeric
+//= require datatables.min
 //= require popper
 //= require bootstrap
 //= require shards
 //= require demo
+//= require custom
+//= require product

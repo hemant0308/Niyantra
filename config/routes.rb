@@ -8,7 +8,9 @@ Rails.application.routes.draw do
   get '/stock/new'=>'stock#new'
   post '/stock/new'=>'stock#create'
   get '/products' => 'product#index'
+  post '/products' => 'product#create'
   get '/product/getProperties' => 'product#get_properties'
+  post '/getProducts' => 'product#get_products'
   #admin namespace
   namespace :admin do
     get '/controls', to: 'dashboard#index'

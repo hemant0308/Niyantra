@@ -68,6 +68,78 @@ var ready = function(){
           return false;
         }
       });
+      var AUTH_TOKEN = $('meta[name=csrf-token]').attr('content');
+      $('#product_table').DataTable({
+        ajax : {
+          url:'/getProducts',
+          type : 'POST',
+          data : {'authenticity_token':AUTH_TOKEN}
+        }
+      });
+    /*  $('#product_form').on('submit',function(event){
+        var is_valid = true;
+        $(this).find('input,select').each(function(){
+          if($(this).val()==''){
+            is_valid = false;
+            $(this).addClass('is-invalid');
+            return false;
+          }
+          if($(this).hasClass('double')){
+            if(!isDouble($(this).val())){
+              is_valid = false;
+              $(this).addClass('is-invalid');
+              return false;
+            }
+          }
+        });
+        if(!is_valid){
+          event.preventDefault();
+          return false;
+        }
+      });
+      $('#product_form').find('input').keyup(function(){
+        var is_valid = true
+        if($(this).val().length <= 0){
+          is_valid = false;
+        }
+        if($(this).hasClass('double') && !isDouble($(this).val())){
+          is_valid = false;
+        }
+        if(is_valid){
+          $(this).addClass('is-valid');
+          $(this).removeClass('is-invalid');
+        }else{
+          $(this).addClass('is-invalid');
+          $(this).removeClass('is-valid');
+        }
+      })
+      function isDouble(ele){
+        var regex = /^\d+.?\d*$/
+        if(ele.match(regex) == null){
+          return false;
+        }
+        return true;
+      }*/
+      $('#product_form').validate({
+        errorClass:'invalid-feedback',
+        validClass:'is-valid',
+        focusCleanup: true,
+        success:function(label,ele){$(ele).removeClass('is-invalid').addClass('is-valid')},
+        rules:{
+          'product[name]':{required:true},
+          'product[brand_id]' : {required:true},
+          'product[type_id]' : {required:true},
+          'product[current_price]':{required:true},
+          'product[offer]':{
+            required:function(ele){
+              return $('#product_offer_type').val() != '';
+            }
+          }
+        },
+        highlight : function(ele,errorClass){
+          $(ele).addClass('is-invalid');
+        },
+      });
 
 }
 $(document).on('turbolinks:load',ready);

@@ -40,31 +40,19 @@
                     <table class="table table-bordered">
                         <thead>
                             <tr>
-                                <th width="13%">Type</th>
-                                <th width="10%">Brand</th>
-                                <th width="13%">Color</th>
-                                <th width="10%">Size</th>
-                                <th width="13%">Current price</th>
-                                <th width="10%">Offer type</th>
-                                <th width="10%">Offer</th>
-                                <th width="12%">Effective date</th>
-                                <th width="10%">Quantity</th>
+                                <th>Product Id</th>
+                                <th>Current price</th>
+                                <th >Offer type</th>
+                                <th >Offer</th>
+                                <th >Effective date</th>
+                                <th >Quantity</th>
                             </tr>
                         </thead>
                         <tbody id="stock_products">
-                        <% (1..5).each do |i| %>    
+                        <% (1..5).each do |i| %>
                             <tr>
                                 <td>
-                                    <%= select_tag(:type,options_for_select(@types),{:class=>'form-control',:name=>'product[][type_id]'}) %>
-                                </td>
-                                <td>
-                                    <%= select_tag(:brand,options_for_select(@sizes),{:class=>'form-control',:name=>'product[][size_id]'}) %>
-                                </td>
-                                <td>
-                                    <%= select_tag(:color,options_for_select(@colors),{:class=>'form-control',:name=>'product[][color_id]'}) %>
-                                </td>
-                                <td>
-                                    <%= select_tag(:size,options_for_select(@colors),{:class=>'form-control',:name=>'product[][size_id]'}) %>
+                                  <%= text_field_tag(:product_id,'',class:'form-control',name:'product[][product_id]') %>
                                 </td>
                                 <td>
                                     <%= text_field_tag(:current_price,'',class:'form-control',name:'product[][current_price]') %>
@@ -82,7 +70,7 @@
                                     <%= text_field_tag(:quantity,'',class:'form-control',name:'product[][quantity]') %>
                                 </td>
                             </tr>
-                        <% end %>    
+                        <% end %>
                         </tbody>
                     </table>
                 </div>
