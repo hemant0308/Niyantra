@@ -1,8 +1,46 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 var ready = function(){
-    function split( val ) {
-      return val.split( /,\s*/ );
+  $('#properties').select2({
+    ajax: {
+      url : '/product/getProperties',
+      data : function(params){
+        var query = {
+          search :params.term,
+          page: params.page || 1
+        }
+        return query;
+      }
+    },
+    width:'100%'
+  });
+  $('#properties').on('select2:select',function(e){
+    var options = e.params.data.data;
+    a=e
+    var id = e.params.data.id
+    var name = e.params.data.text;
+    var ele = $('#properties_table tbody');
+    var input;
+    if(options != false){
+      input = "<select class='form-control' name='product[property["+id+"]]'>";
+      for(var i=0;i<options.length;i++){
+        input += "<option value='"+options[i]+"'>"+options[i]+"</option>";
+      }
+      input += "</select>";
+    }else{
+      input = "<input type='text' class='form-control'  name='product[property["+id+"]]'>";
+    }
+    var html = "<tr id='property_"+id+"'><td>"+name+"</td><td>"+input+"</td></tr>";
+    $(ele).append(html);
+    $('#properties_table').parent().removeClass('d-none');
+
+  });
+  $('#properties').on('select2:unselect',function(e){
+    var id = e.params.data.id;
+    $('#property_'+id).remove();
+  })
+  /*  function split( val ) {
+      return val.split( /,\s );
     }
     function extractLast( term ) {
       return split( term ).pop();
@@ -68,7 +106,8 @@ var ready = function(){
           return false;
         }
       });
-      var AUTH_TOKEN = $('meta[name=csrf-token]').attr('content');
+      */
+
       $('#product_table').DataTable({
         ajax : {
           url:'/getProducts',
@@ -123,8 +162,15 @@ var ready = function(){
       $('#product_form').validate({
         errorClass:'invalid-feedback',
         validClass:'is-valid',
+        onkeyup : false,
+  			onkeyup: false,
+      	onfocusout: false,
+  			focusInvalid : false,
         focusCleanup: true,
-        success:function(label,ele){$(ele).removeClass('is-invalid').addClass('is-valid')},
+        success:function(label,ele){$(ele).removeClass('is-invalid').addClass('is-valid');
+        							var id = $(ele).attr('id');
+        							$('#'+id+'-error').remove();
+        			},
         rules:{
           'product[name]':{required:true},
           'product[brand_id]' : {required:true},
@@ -133,13 +179,27 @@ var ready = function(){
           'product[offer]':{
             required:function(ele){
               return $('#product_offer_type').val() != '';
-            }
+            },
+            validOffer : {'type':$('#product_offer_type'),'amount':$('#product_current_price')}
           }
         },
         highlight : function(ele,errorClass){
           $(ele).addClass('is-invalid');
         },
       });
+      jQuery.validator.addMethod('validOffer',function(value,element,params){
+    		var offer = parseInt($(element).val());
+        var type = parseInt($(params['type']).val());
+        var total = parseInt($(params['amount']).val());
+        if(type == 1){
+          return offer<100 && offer >0
+        }else if(type == 2){
+          return offer<total && offer > 0;
+        }else{
+          return true;
+        }
+
+    	},"Invalid offer value");
 
 }
 $(document).on('turbolinks:load',ready);

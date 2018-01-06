@@ -5,19 +5,10 @@
 		<%= link_to '<i class="fa fa-plus"></i> Add stock'.html_safe, stock_new_path,class:'float-right btn btn-primary btn-pill ' %>
 	</div>
 	<div class="content">
-		<div class="stock-container">
-			<div class="row">
-				<div class="col-md-6 col-xs-6 col-sm-6">
-					<div class="card">
-                		<div class="card-body">
-                    		<h4 class="card-title">Stock Name</h4>
-                    		<p class="card-text">Short description</p>
-                    		<a href="#" class="btn btn-primary">products</a>
-                		</div>
-            		</div>					
-				</div>
-			</div>	
-
+		<div class="stock-table-container">
+			<table class="stock-table table table-bordered" id="stock_table">
+				<thead><tr><th>Supplier name</th><th>Number of products</th><th>Total qunatity</th><th>Total price</th><th>Paid amount</th></tr></thead>
+			</table>
 		</div>
 	</div>
 </div>

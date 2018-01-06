@@ -17,9 +17,12 @@
 //= require jquery.validate.min
 //= require numeric
 //= require datatables.min
+//= require select2.full.min
 //= require popper
 //= require bootstrap
 //= require shards
 //= require demo
 //= require custom
 //= require product
+//=require stock
+//=require billing

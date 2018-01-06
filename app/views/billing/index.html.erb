@@ -1,35 +1,40 @@
 <% provide(:title,'Billing') %>
 <% provide(:billing,'active') %>
 <div class="page-content">
-	<div class="content form-container">		
+	<div class="content form-container">
 		<%= form_for(:bill) do |bill| %>
 		<div class="sub-form mx-4" id="cust_form_contaner">
 			<%= bill.fields_for(:customer) do |customer| %>
 				<div class="row">
 					<div class="col-md-3 col-xs-4 col-sm-12">
-						<div class="form-group">	
-							<%= customer.label(:name,'Cusomer name') %>
-							<%= customer.text_field(:name,class:'form-control') %>	
-						</div>		
+						<div class="form-group">
+							<%= customer.label(:name,'Customer name') %>
+							<%= customer.text_field(:name,class:'form-control customer-name','id'=>'customer_name_input') %>
+							<!--<%= customer.select(:name,options_for_select([]),{},{'class'=>'form-control customer-name d-none','id'=>'customer_name_select','disable'=>'true'}) %> -->
+							<%= customer.text_field(:name,class:'form-control customer-name d-none','id'=>'customer_name_select','disable'=>'true') %>
+						</div>
 					</div>
 					<div class="col-md-3 col-xs-4 col-sm-12">
-						<div class="form-group">	
+						<div class="form-group">
 							<%= customer.label(:phone,'Phone') %>
-							<%= customer.text_field(:phone,class:'form-control') %>	
-						</div>		
+							<%= customer.text_field(:phone,class:'form-control') %>
+						</div>
 					</div>
 					<div class="col-md-3 col-xs-4 col-sm-12">
-						<div class="form-group">	
+						<div class="form-group">
 							<%= customer.label(:email,'Email') %>
-							<%= customer.text_field(:email,class:'form-control') %>	
-						</div>		
+							<%= customer.text_field(:email,class:'form-control') %>
+						</div>
 					</div>
 					<div class="col-md-3 col-xs-4 col-sm-12">
-						<div class="form-group">	
+						<div class="form-group">
 							<%= customer.label(:email,'Address') %>
-							<%= customer.text_area(:email,class:'form-control') %>	
-						</div>		
+							<%= customer.text_area(:email,class:'form-control') %>
+						</div>
 					</div>
+				</div>
+				<div class="row mx-2">
+					<label class="checkbox"> <input type="checkbox" id="noted_customer"> Noted customer</label>
 				</div>
 			<% end %>
 		</div>
@@ -53,7 +58,7 @@
 							<%= product.label(:price,'Price') %>
 							<%= product.text_field(:price,class:'form-control') %>
 						</div>
-					</div>					
+					</div>
 				</div>
 			<% end %>
 		</div>

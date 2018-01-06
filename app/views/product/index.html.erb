@@ -5,17 +5,19 @@
 		<button class="btn btn-primary float-right mr-3" data-toggle="modal" data-target="#product_modal">Add product</button>
 	</div>
 	<div class="product-table-container">
-		<table class="product-table table table-bordered" id="product_table">
+		<table class="product-table table table-bordered" cellspacing="0" id="product_table" width="100%">
 			<thead>
-				<th>Code</th>
-				<th>Name</th>
-				<th>Brand</th>
-				<th>Properties</th>
-				<th>Desciption</th>
-				<th>Price</th>
-				<th>Offer type</th>
-				<th>Offer</th>
-				<th>qunatity</th>
+				<tr>
+					<th>Code</th>
+					<th>Name</th>
+					<th>Brand</th>
+					<th>Properties</th>
+					<th>Desciption</th>
+					<th>Price</th>
+					<th>Offer type</th>
+					<th>Offer</th>
+					<th>qunatity</th>
+				</tr>
 			</thead>
 		</table>
 	</div>
@@ -51,7 +53,7 @@
 				 						<%= product.label(:brand,'Brand')  %>
 				 					</div>
 				 					<div class="col-md-8">
-				 						<%= product.select(:brand_id,options_for_select(@brands),{},{:class=>'form-control'}) %>
+				 						<%= product.select(:brand_id,options_for_select(@brands),{:class=>'form-control'}) %>
 				 					</div>
 				 				</div>
 
@@ -78,14 +80,14 @@
 				 						<%= label_tag(:properties,'Properties') %>
 				 					</div>
 				 					<div class="col-md-9">
-				 						<%= text_field(:properties,'',class:'form-control',id:'properties',placeholder:'Searth property') %>
+				 						<%= select_tag(:properties,'',class:'',id:'properties',placeholder:'Searth property',multiple:'multiple') %>
 				 					</div>
 				 				</div>
 				 			</div>
 				 		</div>
 				 	</div>
 				 	<div class="row mx-4 properties-table-container d-none">
-				 		<table class="table table-bordered" id="properties_table">
+				 		<table class="table table-bordered table-bordered" cellspacing="0" id="properties_table" width="100%">
 				 			<thead><tr><th>Property</th><th>value</th></tr></thead>
 				 			<tbody>
 				 			</tbody>
@@ -111,7 +113,7 @@
 				 						<%= product.label(:offer_type,'Offer type') %>
 				 					</div>
 				 					<div class="col-md-7 col-xs-7">
-				 						<%= product.select(:offer_type,options_for_select([['select offer type',''],['cutoff',1],['discount',2]]),{},{:class=>'form-control'}) %>
+				 						<%= product.select(:offer_type,options_for_select([['select offer type',''],['discount',1],['cutoff',2]]),{},{:class=>'form-control'}) %>
 				 					</div>
 				 				</div>
 				 			</div>

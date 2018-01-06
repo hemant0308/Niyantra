@@ -32,29 +32,32 @@ class ProductController < ApplicationController
 				offer_type = offer_types[offer_type]
 
 			end
-			_products.push([(product['id']).to_s.rjust(6,'0'),product['name'],brand[0]['name'],'','',product['current_price'],offer_type,offer,product['quantity']])
+			_products.push([(product['id']).to_s.rjust(8,'0'),product['name'],brand[0]['name'],'','',product['current_price'],offer_type,offer,product['quantity']])
 		end
 		render 'json':{'data':_products}
 	end
 	def create
 		product = Product.new(product_params)
 		if product.save
+			helpers.make_barcode product
 			redirect_to products_path
 		end
 	end
 	def get_properties
-		term = params['q']
+		term = params['search']
+		page = params['page']
+		start_cnt = (page.to_i-1)*10;
 		connection = get_connection
-		_properties = connection.exec_query("select name,id,is_referenced,data from properties where name like '%#{term}%'");
+		_properties = connection.exec_query("select name,id,is_referenced,data from properties where name like '%#{term}%' limit #{start_cnt},10");
 		_data = [];
 		_properties.each do |property|
 			options = false;
 			if(property['is_referenced'])
 				options = property['data'].split(',')
 			end
-			_data.push({'label':property['name'],'value':property['name'],'data':options,'id':property['id']});
+			_data.push({'text':property['name'],'id':property['id'],'data':options});
 		end
-		 render 'json':_data
+		 render 'json':{'results':_data}
 	end
 	private
 		def product_params

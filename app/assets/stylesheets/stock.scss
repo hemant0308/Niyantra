@@ -43,7 +43,8 @@ select.form-control{
 			width: 100%;
 		}
 		tbody{
-			height: 300px;
+			height: 45vh;
+			min-height: 280px;
 			overflow-y: scroll;
 			display: block;
 			width: 100%;

@@ -2,36 +2,36 @@
 <% provide(:stock,'active') %>
 <div class="main">
     <div class="stock-form">
-        <%= form_for(:stock,method:'post',:html=>{}) do |stock| %>
+        <%= form_for(:stock,method:'post',:html=>{'id':'stock_form'}) do |stock| %>
             <div class="row">
                 <div class="col-md-4 col-xs-4 col-sm-12">
                     <div class="form-group">
-                        <%= label_tag(:supplier_name) %>
+                        <%= stock.label(:supplier_name) %>
                             <%= stock.text_field(:supplier_name,class:'form-control') %>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-4 col-sm-6">
                     <div class="form-group">
-                        <%= label_tag(:quantity) %>
-                            <%= stock.text_field(:quantity,class:'form-control') %>
+                        <%= stock.label(:total_quantity) %>
+                            <%= stock.text_field(:total_quantity,class:'form-control numerical') %>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-4 col-sm-6">
                     <div class="form-group">
-                        <%= label_tag(:total_price) %>
-                            <%= stock.text_field(:total_price,class:'form-control') %>
+                        <%= stock.label(:total_price) %>
+                            <%= stock.text_field(:total_price,class:'form-control numerical') %>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-4 col-sm-6">
                     <div class="form-group">
-                        <%= label_tag(:paid_amount) %>
-                            <%= stock.text_field(:paid_amount,class:'form-control') %>
+                        <%= stock.label(:paid_amount) %>
+                            <%= stock.text_field(:paid_amount,class:'form-control numerical') %>
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-4 col-sm-6">
                     <div class="form-group">
-                        <%= label_tag(:product_count) %>
-                            <%= stock.text_field(:product_count,class:'form-control') %>
+                        <%= stock.label(:product_count) %>
+                            <%= stock.text_field(:product_count,class:'form-control numerical') %>
                     </div>
                 </div>
             </div>
@@ -52,22 +52,22 @@
                         <% (1..5).each do |i| %>
                             <tr>
                                 <td>
-                                  <%= text_field_tag(:product_id,'',class:'form-control',name:'product[][product_id]') %>
+                                  <%= select_tag(:product_id,'',class:'form-control product-id',name:'product[][product_id]',id:'') %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:current_price,'',class:'form-control',name:'product[][current_price]') %>
+                                    <%= text_field_tag(:current_price,'',class:'form-control numerical current_price',name:'product[][current_price]') %>
                                 </td>
                                 <td>
-                                    <%= select_tag(:offer_type,options_for_select([['discount',1],['cutoff',2]]),{:class=>'form-control',:name=>'product[][offer_type]'}) %>
+                                    <%= select_tag(:offer_type,options_for_select([['select offer type',''],['discount',1],['cutoff',2]]),{:class=>'form-control numerical offer-type',:name=>'product[][offer_type]'}) %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:offer,'',class:'form-control',name:'product[][offer]') %>
+                                    <%= text_field_tag(:offer,'',class:'form-control numerical offer',name:'product[][offer]') %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:effective_date,'',class:'form-control',name:'product[][effective_date]') %>
+                                    <%= text_field_tag(:effective_date,'',class:'form-control effective-date',name:'product[][effective_date]') %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:quantity,'',class:'form-control',name:'product[][quantity]') %>
+                                    <%= text_field_tag(:quantity,'',class:'form-control numerical product-quantity',name:'product[][quantity]') %>
                                 </td>
                             </tr>
                         <% end %>

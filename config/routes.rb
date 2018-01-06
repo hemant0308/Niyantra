@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   post '/products' => 'product#create'
   get '/product/getProperties' => 'product#get_properties'
   post '/getProducts' => 'product#get_products'
+  post '/getstocks' => 'stock#get_stocks'
+  get '/stock/getproducts' => 'stock#get_products'
   #admin namespace
   namespace :admin do
     get '/controls', to: 'dashboard#index'
