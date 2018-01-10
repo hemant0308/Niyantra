@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171230080404) do
+ActiveRecord::Schema.define(version: 20180110074241) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 20171230080404) do
     t.datetime "updated_at", null: false
     t.integer "quantity"
     t.float "price", limit: 24
+    t.float "net_price", limit: 24
     t.index ["bill_id"], name: "index_bill_items_on_bill_id"
     t.index ["product_id"], name: "index_bill_items_on_product_id"
   end
@@ -32,6 +33,11 @@ ActiveRecord::Schema.define(version: 20171230080404) do
     t.datetime "updated_at", null: false
     t.float "offer", limit: 24
     t.integer "offer_type"
+    t.string "customer_name"
+    t.string "customer_phone"
+    t.string "customer_email"
+    t.text "customer_address"
+    t.float "net_price", limit: 24
     t.index ["customer_id"], name: "index_bills_on_customer_id"
     t.index ["shop_id"], name: "index_bills_on_shop_id"
   end
@@ -106,7 +112,7 @@ ActiveRecord::Schema.define(version: 20171230080404) do
     t.float "current_price", limit: 24
     t.integer "offer_type"
     t.float "offer", limit: 24
-    t.integer "quantity"
+    t.integer "quantity", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "tax_id"

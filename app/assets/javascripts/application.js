@@ -21,6 +21,7 @@
 //= require popper
 //= require bootstrap
 //= require shards
+//= require shortcut
 //= require demo
 //= require custom
 //= require product

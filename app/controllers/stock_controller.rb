@@ -21,9 +21,14 @@ class StockController < ApplicationController
 				product[:stock_id] = stock_id
 				product[:price] = product['current_price']
 				product_id = product['product_id'];
+				if(product_id.to_i == 0)
+					break
+				end
 				if(check_product (product_id))
 					product = StockItem.new(product_params(product))
 					can_commit &= product.save
+					can_commit &= Product.where(["id = ?",product.id]).update_all(["quantity = quantity + ?",product.quantity])
+
 				end
 		end
 		if can_commit
@@ -47,10 +52,11 @@ class StockController < ApplicationController
 	end
 	def get_stocks
 		connection = get_connection
-		stocks = connection.exec_query('select supplier_name,total_price,paid_amount,total_quantity from stocks');
+		stocks = Stock.select('id,supplier_name,total_price,paid_amount,total_quantity,created_at');
 		_stocks = []
 		stocks.each do |stock|
-			_stocks.push([stock['supplier_name'],'',stock['total_quantity'],stock['total_price'],stock['paid_amount']])
+			product_count = stock.products.length
+			_stocks.push([stock['supplier_name'],product_count,stock['total_quantity'],stock['total_price'],stock['paid_amount'],stock['created_at'].strftime('%d.%m.%Y %H:%M')])
 		end
 		render 'json':{'data':_stocks}
 	end

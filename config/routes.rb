@@ -2,17 +2,21 @@ Rails.application.routes.draw do
   devise_for :users
   root 'home#index'
   get '/home'=>'home#index'
-  get '/billing'=>'billing#index'
+  get '/billing'=>'billing#new'
+  post '/billing'=>'billing#create'
   get '/customers'=>'customer#index'
   get '/stock'=>'stock#index'
   get '/stock/new'=>'stock#new'
   post '/stock/new'=>'stock#create'
   get '/products' => 'product#index'
   post '/products' => 'product#create'
-  get '/product/getProperties' => 'product#get_properties'
+  get '/product/get_properties' => 'product#get_properties'
   post '/getProducts' => 'product#get_products'
   post '/getstocks' => 'stock#get_stocks'
   get '/stock/getproducts' => 'stock#get_products'
+  get '/billing/get_customers' => 'billing#get_customers'
+  get '/billing/get_product' => 'billing#get_product'
+  get '/billing/receipt/:id' => 'billing#receipt'
   #admin namespace
   namespace :admin do
     get '/controls', to: 'dashboard#index'

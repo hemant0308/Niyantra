@@ -10,5 +10,6 @@ class ApplicationController < ActionController::Base
   def get_connection
   	@connection ||= ActiveRecord::Base.connection
   end
+
   helper :all
 end

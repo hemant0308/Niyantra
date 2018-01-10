@@ -49,25 +49,25 @@
                             </tr>
                         </thead>
                         <tbody id="stock_products">
-                        <% (1..5).each do |i| %>
+                        <% (1..1).each do |i| %>
                             <tr>
                                 <td>
                                   <%= select_tag(:product_id,'',class:'form-control product-id',name:'product[][product_id]',id:'') %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:current_price,'',class:'form-control numerical current_price',name:'product[][current_price]') %>
+                                    <%= text_field_tag(:current_price,'',class:'form-control numerical current_price',name:'product[][current_price]',id:'') %>
                                 </td>
                                 <td>
-                                    <%= select_tag(:offer_type,options_for_select([['select offer type',''],['discount',1],['cutoff',2]]),{:class=>'form-control numerical offer-type',:name=>'product[][offer_type]'}) %>
+                                    <%= select_tag(:offer_type,options_for_select([['select offer type',''],['discount',1],['cutoff',2]]),{:class=>'form-control numerical offer-type',:name=>'product[][offer_type]',:id=>''}) %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:offer,'',class:'form-control numerical offer',name:'product[][offer]') %>
+                                    <%= text_field_tag(:offer,'',class:'form-control numerical offer',name:'product[][offer]',id:'') %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:effective_date,'',class:'form-control effective-date',name:'product[][effective_date]') %>
+                                    <%= text_field_tag(:effective_date,'',class:'form-control effective-date',name:'product[][effective_date]',id:'') %>
                                 </td>
                                 <td>
-                                    <%= text_field_tag(:quantity,'',class:'form-control numerical product-quantity',name:'product[][quantity]') %>
+                                    <%= text_field_tag(:quantity,'',class:'form-control numerical product-quantity',name:'product[][quantity]',id:'') %>
                                 </td>
                             </tr>
                         <% end %>

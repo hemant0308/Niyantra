@@ -3,7 +3,7 @@
 var ready = function(){
   $('#properties').select2({
     ajax: {
-      url : '/product/getProperties',
+      url : '/product/get_properties',
       data : function(params){
         var query = {
           search :params.term,
