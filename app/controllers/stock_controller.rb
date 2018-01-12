@@ -1,4 +1,5 @@
 class StockController < ApplicationController
+	include ApplicationHelper
 	def new
 		@brands = []
 		@types = [['shirt',1],['pant',2]];
@@ -27,8 +28,7 @@ class StockController < ApplicationController
 				if(check_product (product_id))
 					product = StockItem.new(product_params(product))
 					can_commit &= product.save
-					can_commit &= Product.where(["id = ?",product.id]).update_all(["quantity = quantity + ?",product.quantity])
-
+					can_commit &= Product.where(["id = ?",product.product_id]).update_all(["quantity = quantity + ?",product.quantity])
 				end
 		end
 		if can_commit
@@ -56,7 +56,7 @@ class StockController < ApplicationController
 		_stocks = []
 		stocks.each do |stock|
 			product_count = stock.products.length
-			_stocks.push([stock['supplier_name'],product_count,stock['total_quantity'],stock['total_price'],stock['paid_amount'],stock['created_at'].strftime('%d.%m.%Y %H:%M')])
+			_stocks.push([stock['supplier_name'],product_count,stock['total_quantity'],stock['total_price'],stock['paid_amount'],format_date(stock['created_at'])])
 		end
 		render 'json':{'data':_stocks}
 	end

@@ -11,12 +11,14 @@ Rails.application.routes.draw do
   get '/products' => 'product#index'
   post '/products' => 'product#create'
   get '/product/get_properties' => 'product#get_properties'
-  post '/getProducts' => 'product#get_products'
+  post '/get_products' => 'product#get_products'
   post '/getstocks' => 'stock#get_stocks'
   get '/stock/getproducts' => 'stock#get_products'
   get '/billing/get_customers' => 'billing#get_customers'
   get '/billing/get_product' => 'billing#get_product'
   get '/billing/receipt/:id' => 'billing#receipt'
+  post '/get_customers' => 'customer#get_customers'
+  post '/customers/get_transactions' => 'customer#get_transactions'
   #admin namespace
   namespace :admin do
     get '/controls', to: 'dashboard#index'

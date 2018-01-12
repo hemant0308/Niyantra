@@ -4,15 +4,15 @@
     <hr>
     <div class="receipt-header">
       <div class="row">
-      	<div class="col-md-8 col-sm-12">
+      	<div class="col-md-7 col-sm-12">
       		<div class="font-1"><%= @shop.name %></div>
       		<div class="font-3"><%= @shop.address %></div>
       		<div class="font-2"><%= @bill.customer_name %></div>
       		<div class="font-3"><%= @bill.customer_address %></div>
       	</div>
-      	<div class="col-md-4 col-sm-12">
+      	<div class="col-md-5 col-sm-12">
       		<div><span class="label-font">Bill No :</span><span class="font-2"><%= get_bill_no(@bill.id) %></span></div>
-      		<div><span class="label-font">Date :</span><span class="font-3"><%= Time.now.strftime('%d.%m.%Y %H:%M') %></span></div>
+      		<div><span class="label-font">Date :</span><span class="font-3"><%= format_date(Time.now) %></span></div>
       	</div>
       </div>
     </div>
@@ -38,6 +38,9 @@
     		<div class="col text-right"><span class="label-font">Paid amount : </span><span><span class="fa fa-inr"></span> <%= format_float @bill.paid_amount %></span></div>
 
     	</div>
+      <hr>
+      <div class="action-part mt-3">
+        <center><a class="btn btn-info py-2" href="/billing"><span class="fa fa-chevron-circle-left"></span> &nbsp;back</a></center>
+      </div>
     </div>
-    	
 </div>

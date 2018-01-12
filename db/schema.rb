@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180110074241) do
+ActiveRecord::Schema.define(version: 20180111094450) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -63,6 +63,19 @@ ActiveRecord::Schema.define(version: 20180110074241) do
     t.string "code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "customer_transactions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "customer_id"
+    t.bigint "shop_id"
+    t.bigint "bill_id"
+    t.float "amount", limit: 24
+    t.float "due", limit: 24
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bill_id"], name: "index_customer_transactions_on_bill_id"
+    t.index ["customer_id"], name: "index_customer_transactions_on_customer_id"
+    t.index ["shop_id"], name: "index_customer_transactions_on_shop_id"
   end
 
   create_table "customers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -242,6 +255,9 @@ ActiveRecord::Schema.define(version: 20180110074241) do
   add_foreign_key "bills", "customers"
   add_foreign_key "bills", "shops"
   add_foreign_key "cities", "districts"
+  add_foreign_key "customer_transactions", "bills"
+  add_foreign_key "customer_transactions", "customers"
+  add_foreign_key "customer_transactions", "shops"
   add_foreign_key "districts", "states"
   add_foreign_key "price_variations", "products"
   add_foreign_key "products", "brands"

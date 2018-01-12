@@ -14,24 +14,26 @@
             <li class="nav-item <%= yield(:billing) %>">
                 <%= link_to '<i class="fa fa-file-text-o"></i> billing'.html_safe, billing_path,class:"nav-link" %>
             </li>
+            </li>
             <li class="nav-item <%= yield(:customers) %> ">
                 <%= link_to '<i class="fa fa-users"></i> Customers'.html_safe, customers_path,class:"nav-link" %>
+            <li class="nav-item <%= yield(:products) %> ">
+                <%= link_to '<i class="fa fa-product-hunt"></i> Products'.html_safe, products_path,class:"nav-link" %>
             </li>
             <li class="nav-item dropdown <%= yield(:stock) %>">
                 <a class="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-shopping-cart"></i> Stock
                             </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <%= link_to 'products'.html_safe, products_path,class:"dropdown-item" %>
                     <%= link_to 'stocks'.html_safe, stock_path,class:"dropdown-item" %>
                     <%= link_to 'Add stock'.html_safe, stock_new_path,class:"dropdown-item" %>
                 </div>
             </li>
         </ul>
-        <ul class="navbar-nav float-right">
-            <li class="nav-item dropdown">
+        <ul class="navbar-nav float-right mr-4">
+            <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        user name
+                        <span class="fa fa-user"></span> user name
                             </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <%= link_to '<i class="fa fa-user"></i> profile'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>

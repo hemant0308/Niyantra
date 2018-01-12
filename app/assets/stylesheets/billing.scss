@@ -12,6 +12,17 @@
 	span.fa{
 		font-size: 1rem;
 	}
+	.total-net-price,.total-net-price .fa{
+		font-size: 3rem;
+    	padding-left: 10px;
+    	font-weight: 600;
+    	margin-left: 10px;
+   		vertical-align: middle;
+    	color: var(--dark);
+    	#net_price{
+    		font-family: fantasy;
+    	}
+	}
 }
 .receipt{
 	margin: auto;

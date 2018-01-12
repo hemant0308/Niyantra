@@ -1,2 +1,28 @@
 <% provide(:customers,'active') %>
 <% provide(:title,'Customers') %>
+<div class="main">
+	<div class="content">
+		<div class="customer_table">
+			<table class="table table-bordered" width="100%" id="customers_table">
+				<thead>
+					<tr><th width="20%">Customer Name</th><th width="20%">Phone</th><th width="20%">email</th><th width="20%">Address</th><th width="10%">due</th><th width="10%"></th></tr>
+				</thead>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="view_trans" data-current="">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 id="customer_name">customer name</h5>
+				<h5  class="text-right"><span class="fa fa-inr"></span> <span id="customer_due"></span></h5>
+			</div>
+			<div class="modal-body">
+				<table class="table table-bordered" width="100%" id="customer_transactions">
+					<thead><tr><th>Date</th><th>Description</th><th>Amount</th><th>Due</th></tr></thead>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

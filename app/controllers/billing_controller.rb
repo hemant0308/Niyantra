@@ -4,75 +4,106 @@ class BillingController < ApplicationController
 		@customer = Customer.new;
 	end
 	def create
-		noted_customer = params['noted_customer']
-		bill = params[:bill]
-		can_commit = true
-		if noted_customer
-			customer = bill[:customer]
-			id = customer[:id].to_i
-			if id !=0
-				can_commit &= Customer.update(id,name:customer[:name],phone:customer[:phone],email:customer[:email],address:customer[:address])
+		Bill.transaction do
+			noted_customer = params['noted_customer']
+			bill = params[:bill]
+			can_commit = true
+			if noted_customer
+				customer = bill[:customer]
+				customer_id = customer[:id].to_i
+				if customer_id !=0
+					can_commit &= Customer.update(customer_id,name:customer[:name],phone:customer[:phone],email:customer[:email],address:customer[:address])
+				else
+					customer = Customer.new(customer_params(customer))
+					can_commit  &= customer.save
+					customer_id =customer[:id]
+				end
 			else
-				customer = Customer.new(customer_params(customer))
-				can_commit  &= customer.save
-				id =customer[:id]
+				customer_id = 1
+				customer = bill[:customer]
 			end
-		else
-			id = 1
-			customer = bill[:customer]
-		end
-
-		bill = Bill.new
-		bill[:customer_name] = customer[:name]
-		bill[:customer_phone] = customer[:phone]
-		bill[:customer_email] = customer[:email]
-		bill[:customer_address] = customer[:address]
-		bill[:customer_id] = id
-		bill[:shop_id] = current_shop
-		can_commit &= bill.save
-		if(!can_commit)
-			byebug
-		end	
-		products = params[:product]
-		_quantity = params[:quantity]
-		total_price = 0;
-		total_net_price = 0;
-		product = ''
-		products.each do |product_id|
-			bill_item = BillItem.new
-			bill_item[:bill_id] = bill.id
-			product_id = product_id.to_i
-			product = Product.find(product_id)
-			quantity = _quantity[product_id.to_s].to_i
-			price = quantity * product[:current_price]
-			offer = 0
-			if product[:offer_type] == 1
-				offer = product[:offer].to_f
-				offer = price*(offer/100)
-			elsif product[:offer_type] == 2
-					offer = product[:offer].to_f
-			end
-			net_price = price-offer
-			bill_item[:product_id] = product_id
-			bill_item[:quantity] = _quantity[product_id.to_s].to_i
-			bill_item[:price] = price
-			bill_item[:net_price] = net_price
-			can_commit &= bill_item.save
+			paid_amount = bill[:paid_amount]
+			bill = Bill.new
+			bill[:customer_name] = customer[:name]
+			bill[:customer_phone] = customer[:phone]
+			bill[:customer_email] = customer[:email]
+			bill[:customer_address] = customer[:address]
+			bill[:customer_id] = customer_id
+			bill[:shop_id] = current_shop
+			can_commit &= bill.save
 			if(!can_commit)
 				byebug
-			end	
-			Product.where('id = ?',product_id).update_all('quantity = quantity - 1')
-			total_price += price
-			total_net_price += net_price
-		end
-		can_commit &= bill.update(:net_price=>total_net_price,:total_price=>total_price)
-		if(!can_commit)
-			byebug
-		end	
-		if can_commit
-			redirect_to '/billing/receipt/'+bill.id.to_s
-		else
-			render 'new'
+			end
+			products = params[:product]
+			_quantity = params[:quantity]
+			total_price = 0;
+			total_net_price = 0;
+			product = ''
+			products.each do |product_id|
+				bill_item = BillItem.new
+				bill_item[:bill_id] = bill.id
+				product_id = product_id.to_i
+				product = Product.find(product_id)
+				price = product[:current_price]
+				offer = 0
+				if product[:offer_type] == 1
+					offer = product[:offer].to_f
+					offer = price*(offer/100)
+				elsif product[:offer_type] == 2
+						offer = product[:offer].to_f
+				end
+				quantity = _quantity[product_id.to_s].to_i
+				price = price * quantity
+				offer = offer * quantity
+				net_price = price-offer
+				bill_item[:product_id] = product_id
+				bill_item[:quantity] = quantity
+				bill_item[:price] = price
+				bill_item[:net_price] = net_price
+				can_commit &= bill_item.save
+				if(!can_commit)
+					byebug
+				end
+				Product.where('id = ?',product_id).update_all(['quantity = quantity - ?',quantity])
+				total_price += price
+				total_net_price += net_price
+			end
+			can_commit &= bill.update(:net_price=>total_net_price,:total_price=>total_price,:paid_amount=>paid_amount)
+
+			if noted_customer
+				last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer_id,current_shop]).order(created_at: :desc).reorder(id: :desc).limit(1)
+				due = 0.00
+				if(last_transaction.length !=0)
+					due = last_transaction[0].due.to_f
+				end
+				transaction = CustomerTransaction.new
+				transaction.bill_id = bill.id
+				transaction.shop_id = current_shop
+				transaction.customer_id = customer_id
+				transaction.amount = total_net_price
+				due = due+total_net_price
+				transaction.due = due
+				can_commit &= transaction.save
+				if paid_amount.to_f > 0
+					transaction = CustomerTransaction.new
+					transaction.bill_id = bill.id
+					transaction.shop_id = current_shop
+					transaction.customer_id = customer_id
+					transaction.amount = -1*(paid_amount.to_f)
+					due = due-paid_amount.to_f
+					transaction.due = due
+					can_commit &= transaction.save
+				end
+				byebug
+			end
+			if(!can_commit)
+				byebug
+			end
+			if can_commit
+				redirect_to '/billing/receipt/'+bill.id.to_s
+			else
+				render 'new'
+			end
 		end
 	end
 	def get_customers
@@ -80,9 +111,16 @@ class BillingController < ApplicationController
 		start = 0
 		search = params['term']
 		result = []
-		_customers = connection.exec_query("select id,name,phone,email,address from customers where  (name like '%#{search}%' OR id='#{search}' OR phone like '#{search}') limit #{start},10");
+		_customers = Customer.select("id,name,phone,email,address").where(["name like ? OR id= ? OR phone like ?","%#{search}%","#{search}","#{search}"]).limit(10);
 		_customers.each do |customer|
 			if customer['name']
+				last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer.id,current_shop]).order(created_at: :desc).limit(1)
+				due = 0.00
+				if(last_transaction.length !=0)
+					due = last_transaction[0].due
+				end
+				customer = customer.attributes
+				customer[:due] = due
 				result.push({'label':customer['name'].to_s+' '+customer['phone'].to_s,'value':customer['name'],'data':customer});
 			end
 		end
@@ -93,23 +131,22 @@ class BillingController < ApplicationController
 		id = params['code'].to_i
 		product = Product.find_by(:id=>id)
 		if(product)
-			product = product.attributes
-			product['description'] = 'description';
+			temp_product = {}
+			temp_product['id'] = product.id
+			temp_product['description'] = 'description';
+			temp_product['name'] = product.name
 			offer = 0;
-			if product['offer_type'].to_i == 1
-				temp = product['offer'].to_f
-				offer = product['offer'].to_i*(temp/100);
+			if product.offer_type.to_i == 1
+				temp = product.offer.to_f
+				offer = product.current_price.to_f*(temp/100).round(2);
 			elsif product['offer_type'].to_i == 2
 				offer = product['offer'].to_f
 			end
-			product['net_price'] = product['current_price'].to_i - offer
-			if product['quantity'].to_i > 0
-				product['is_available'] = true
-			else
-				product['is_available'] = false
-			end
+			temp_product['offer'] = offer;
+			temp_product['current_price'] = product.current_price
+			temp_product['quantity'] = product.quantity.to_i
 		end
-		render 'json':product
+		render 'json':temp_product
 	end
 	def receipt
 		id = params[:id]

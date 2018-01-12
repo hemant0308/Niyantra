@@ -1,6 +1,6 @@
 <% provide(:title,'Billing') %>
 <% provide(:billing,'active') %>
-<div class="page-content">
+<div class="main">
 	<div class="content form-container">
 		<%= form_for(:bill,:html=>{:id=>'billing_form'}) do |bill| %>
 		<div class="sub-form mx-4" id="cust_form_contaner">
@@ -11,7 +11,6 @@
 						<div class="form-group">
 							<%= customer.label(:name,'Customer name') %>
 							<%= customer.text_field(:name,class:'form-control customer-name','id'=>'customer_name_input') %>
-							<%= customer.text_field(:name,class:'form-control customer-name d-none','id'=>'customer_name_select','disable'=>'true') %>
 							<label class="checkbox"> <input type="checkbox" id="noted_customer" name="noted_customer" value="yes"> Noted customer</label>
 
 						</div>
@@ -42,11 +41,45 @@
 		</div>
 		<div class="sub-form mx-4">
 				<div class="row">
-					<div class="col-md-3 col-xs-3 col-sm-12">
+					<div class="col-md-3 col-xs-6 col-sm-12">
 						<div class="form-group">
 							<label for="product_code">Product Code</label>
 							<input type="text" class="form-control numerical" id="product_code">
 						</div>
+					</div>
+					<div class="col-md-3 col-xs-6 col-sm-12 px-0 mx-0">
+						<div class="total-net-price"><span class="fa fa-inr"></span> <span id="total_net_price">0.00</span></div>
+					</div>
+					<div class="col-md-6 col-xs-12 col-sm-12 d-none" id="due_container">
+						<div class="row">
+							<div class="col-md-3 col-xs-3 col-sm-6">
+								Due
+							</div>
+							<div class="col-md-3 col-xs-3 col-sm-6">
+								: <span class="fa fa-inr"></span> <span id="due" >0.00</span>
+							</div>
+							<div class="col-md-3 col-xs-3 col-sm-6">
+								Today payble
+							</div>
+							<div class="col-md-3 col-xs-3 col-sm-6">
+								: <span class="fa fa-inr"></span> <span id="today_payble">0.00</span>
+							</div>
+						</div>
+						<hr/>
+						<div class="row">	
+							<div class="col-md-3 col-xs-3 col-sm-6 pt-2">
+								Paid amount
+							</div>
+							<div class="col-md-3 col-xs-3 col-sm-6">
+								<input type="text" name="bill[paid_amount]" class="form-control numerical" id="paid_amount">
+							</div>
+							<div class="col-md-3 col-xs-3 col-sm-6">
+								Remaining Due
+							</div>
+							<div class="col-md-3 col-xs-3 col-sm-6">
+								: <span class="fa fa-inr"></span> <span id="remaining_due">0.00</span>
+							</div>
+						</div>	
 					</div>
 					<!--
 					<% if false %>

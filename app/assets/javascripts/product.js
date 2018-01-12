@@ -110,7 +110,7 @@ var ready = function(){
 
       $('#product_table').DataTable({
         ajax : {
-          url:'/getProducts',
+          url:'/get_products',
           type : 'POST',
           data : {'authenticity_token':AUTH_TOKEN}
         }
