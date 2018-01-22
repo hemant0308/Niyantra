@@ -32,15 +32,32 @@ class ProductController < ApplicationController
 				offer_type = offer_types[offer_type]
 
 			end
-			_products.push([(product['id']).to_s.rjust(8,'0'),product['name'],brand[0]['name'],'','',product['current_price'],offer_type,offer,product['quantity']])
+			_products.push([(product['id']).to_s.rjust(8,'0'),product['name'],brand[0]['name'],'','',product['current_price'],offer_type,offer,product['quantity'],product['id']])
 		end
 		render 'json':{'data':_products}
 	end
 	def create
-		product = Product.new(product_params)
-		if product.save
-			helpers.make_barcode product
-			redirect_to products_path
+		product = params[:product]
+		can_commit = true
+		if product[:id]
+			id = product[:id]
+			product = Product.find(id)
+			can_commit &= product.update(product_params)
+		else
+			product = Product.new(product_params)
+			can_commit &= product.save
+			if can_commit
+				helpers.make_barcode product
+				redirect_to products_path
+			end	
+		end
+		if can_commit
+			properties = params[:product][:property]
+			if properties
+				properties.each do |key,val|
+					can_commit &= ProductProperty.new(product_id:product.id,property_id:key,value:val).save
+				end
+			end
 		end
 	end
 	def get_properties
@@ -59,8 +76,18 @@ class ProductController < ApplicationController
 		end
 		 render 'json':{'results':_data}
 	end
+	def get_product_info
+		id = params[:id]
+		product = Product.find(id)
+		properties = product.properties
+		_temp = {}
+		properties.each do |p|
+			_temp[p.id] = p
+		end
+		render 'json':{'product':product,'properties':_temp}
+	end
 	private
 		def product_params
-			params.require(:product).permit(:brand_id,:name,:current_price,:offer_type,:offer)
+			params.require(:product).permit(:id,:brand_id,:type_id,:name,:current_price,:offer_type,:offer)
 		end
 end

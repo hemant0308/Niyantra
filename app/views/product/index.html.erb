@@ -17,6 +17,7 @@
 					<th>Offer type</th>
 					<th>Offer</th>
 					<th>qunatity</th>
+					<th></th>
 				</tr>
 			</thead>
 		</table>
@@ -32,6 +33,7 @@
 			</div>
 			<div class="modal-header">
 				 <%= form_for(@product,:html=>{:id=>'product_form'}) do |product| %>
+				 <input type="hidden" name="product[id]" value="" id="product_id">
 				 	<div class="row">
 				 		<div class="col-md-5">
 				 			<div class="form-group">
@@ -53,7 +55,7 @@
 				 						<%= product.label(:brand,'Brand')  %>
 				 					</div>
 				 					<div class="col-md-8">
-				 						<%= product.select(:brand_id,options_for_select(@brands),{:class=>'form-control'}) %>
+				 						<%= product.select(:brand_id,options_for_select(@brands),{},{:class=>'form-control'}) %>
 				 					</div>
 				 				</div>
 

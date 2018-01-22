@@ -35,7 +35,6 @@ var ready = function(){
             $(row).data('name',data[0]);
   		}
 	});
-  var customer_datatable;
   $(document).on('click','.view-trans',function(){
     var current = $('#view_trans').attr('data-current');
     var row = $(this).closest('tr');
