@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get '/product/get_properties' => 'product#get_properties'
   post '/get_products' => 'product#get_products'
   get '/product/get_product_info' => 'product#get_product_info'
+  post '/product/delete' => 'product#delete'
 
   get '/stock'=>'stock#index'
   get '/stock/new'=>'stock#new'

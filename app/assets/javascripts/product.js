@@ -20,12 +20,21 @@ var ready = function() {
         a = e
         var id = e.params.data.id
         var name = e.params.data.text;
+        buildProperty(id,name,options);
+    });
+    $('#properties').on('select2:unselect', function(e) {
+        var id = e.params.data.id;
+        $('#property_' + id).remove();
+    });
+    function buildProperty(id,name,options,value=''){
+
         var ele = $('#properties_table tbody');
         var input;
         if (options != false) {
             input = "<select class='form-control' name='product[property[" + id + "]]'>";
             for (var i = 0; i < options.length; i++) {
-                input += "<option value='" + options[i] + "'>" + options[i] + "</option>";
+                var selected = (options[i]==value)?'selected':''
+                input += "<option value='" + options[i] + "'"+selected+" >" + options[i] + "</option>";
             }
             input += "</select>";
         } else {
@@ -34,12 +43,7 @@ var ready = function() {
         var html = "<tr id='property_" + id + "'><td>" + name + "</td><td>" + input + "</td></tr>";
         $(ele).append(html);
         $('#properties_table').parent().removeClass('d-none');
-
-    });
-    $('#properties').on('select2:unselect', function(e) {
-        var id = e.params.data.id;
-        $('#property_' + id).remove();
-    });
+    }
     $('#product_table').DataTable({
         ajax: {
             url: '/get_products',
@@ -47,8 +51,8 @@ var ready = function() {
             data: { 'authenticity_token': AUTH_TOKEN }
         },
         "columnDefs": [{
-                "data": null,
-                "defaultContent": "<div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div>",
+                "render": function(data,type,row){
+                 return "<form method='post' class='inline' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
                 "targets": -1,
             },
             {
@@ -57,7 +61,8 @@ var ready = function() {
             },
             {
                 "render": function(data, type, row) {
-                    return "<span class='fa fa-inr'></span> " + parseFloat(data).toFixed(2);
+
+                  return "<span class='fa fa-inr'></span> " + parseFloat(data).toFixed(2);
                 },
                 "createdCell": function(td, cellData, rowData, row, col) {
                     $(td).addClass('text-right');
@@ -91,9 +96,29 @@ var ready = function() {
           $('#product_offer_type').val(product.offer_type);
           $('#product_offer').val(product.offer);
           $('#product_id').val(product.id);
+          var properties = data.properties;
+          var property_values = data.property_values
+          var properties_text = '';
+          $('#properties_table tbody').html('');
+          for(var i=0;i<property_values.length;i++){
+            var id = property_values[i].property_id;
+            var value = property_values[i].value;
+            var name = properties[id].name
+            properties_text += "<option value='"+id+"' selected>"+name+"</option>";
+            var data = properties[id].data;
+            var options = (properties[id].is_referenced == 1)?(data.split(',')):false;
+            buildProperty(id,name,options,value);
+          }
+
+          $('#properties').html(properties_text);
           $('#product_modal').modal('show');
         }
       })
+    });
+    $(document).on('click','.del-prod',function(){
+      if(window.confirm('Are you sure')){
+        $(this).parent().submit();
+      }
     })
     $('#product_form').validate({
         errorClass: 'invalid-feedback',

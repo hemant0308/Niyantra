@@ -56,7 +56,9 @@ var ready = function(){
           $('#customer_due').html(parseFloat(due).toFixed(2));
           $('#view_trans').attr('data-current',id);
           $('#view_trans').modal('show');
-        }
+        },
+        'pageLength' : 6,
+        "lengthMenu": [[6,10, 25, 50, -1], [6,10,25, 50, "All"]]
       });
     }else{
       $('#view_trans').modal('show');
