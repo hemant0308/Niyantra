@@ -54,7 +54,7 @@ ready = function(){
     if(event.keyCode == 115){
       event.stopPropagation();
     }
-  })
+  });
   $('#billing_form').validate({
     errorClass:'invalid-feedback',
     validClass:'is-valid',
@@ -96,7 +96,7 @@ ready = function(){
       var net_price = data.current_price - data.offer;
       total_price += net_price;
       var quantity = "<input type='text' class='form-control numerical quantity' name='quantity["+id+"]' value='1'>";
-      html = "<tr id='product_"+id+"' data-quantity='"+data.quantity+"'  price='"+net_price+"' data-id='"+id+"' data-price='"+parseFloat(data.current_price).toFixed(2)+"' data-offer='"+parseFloat(data.offer).toFixed(2)+"'><td><input type='hidden' name='product[]' value='"+id+"'>"+data.name+"</td><td>"+data.description+"</td><td>"+quantity+"</td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='price'>"+parseFloat(data.current_price).toFixed(2)+"</span></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='offer'>"+parseFloat(data.offer).toFixed(2)+"</span></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='net-price'>"+parseFloat(net_price).toFixed(2)+"</span></td></tr>";
+      html = "<tr id='product_"+id+"' data-quantity='"+data.quantity+"'  price='"+net_price+"' data-id='"+id+"' data-price='"+parseFloat(data.current_price).toFixed(2)+"' data-offer='"+parseFloat(data.offer).toFixed(2)+"'><td><input type='hidden' name='product[]' value='"+id+"'>"+data.name+"</td><td>"+data.description+"</td><td>"+quantity+"</td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='price'>"+parseFloat(data.current_price).toFixed(2)+"</span></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='offer'>"+parseFloat(data.offer).toFixed(2)+"</span></td><td></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='net-price'>"+parseFloat(net_price).toFixed(2)+"</span></td><td><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></td></tr>";
       $('#bill_products').prepend(html);
       $('#product_'+id+' .numerical').numeric();
       $('#product_code').val('');
@@ -158,5 +158,9 @@ ready = function(){
     $('#total_net_price').html(total.toFixed(2));
     $('#today_payble').html(total.toFixed(2));
   }
+  $(document).on('click','.del-prod',function(){
+    $(this).closest('tr').remove();
+    updateTotal();
+  })
 }
-$(document).on('turbolinks:load',ready);
+$(document).ready(ready);

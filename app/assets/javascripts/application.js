@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require rails-ujs
-//= require turbolinks
 //= require jquery3
 //= require jquery-ui
 //= require jquery.validate.min
@@ -24,7 +23,3 @@
 //= require shortcut
 //= require demo
 //= require custom
-//= require product
-//=require stock
-//=require billing
-//=require customer

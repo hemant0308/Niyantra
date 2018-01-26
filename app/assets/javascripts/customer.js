@@ -1,7 +1,7 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 var ready = function(){
-	$('#customers_table').DataTable({
+	datatable = $('#customers_table').DataTable({
 		ajax:{
 			url:'/get_customers',
           	type : 'POST',
@@ -45,7 +45,7 @@ var ready = function(){
       if(typeof customer_datatable !== 'undefined'){
         customer_datatable.destroy();
       }
-      customer_datatable = $('#customer_transactions').DataTable({
+      datatable = customer_datatable = $('#customer_transactions').DataTable({
         ajax:{
           url:'/customers/get_transactions',
           type : 'POST',

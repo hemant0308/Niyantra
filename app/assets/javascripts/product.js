@@ -44,7 +44,10 @@ var ready = function() {
         $(ele).append(html);
         $('#properties_table').parent().removeClass('d-none');
     }
-    $('#product_table').DataTable({
+    if(typeof product_datatable != 'undefined'){
+        product_datatable.destroy();
+    }
+    product_datatable = datatable = $('#product_table').DataTable({
         ajax: {
             url: '/get_products',
             type: 'POST',
@@ -52,7 +55,7 @@ var ready = function() {
         },
         "columnDefs": [{
                 "render": function(data,type,row){
-                 return "<form method='post' class='inline' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
+                 return "<form method='post' class='table-btn-container' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
                 "targets": -1,
             },
             {
@@ -118,6 +121,7 @@ var ready = function() {
     $(document).on('click','.del-prod',function(){
       if(window.confirm('Are you sure')){
         $(this).parent().submit();
+
       }
     })
     $('#product_form').validate({

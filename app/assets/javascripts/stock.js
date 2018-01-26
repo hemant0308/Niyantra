@@ -97,10 +97,6 @@ ready = function(){
 			data : {'authenticity_token':AUTH_TOKEN}
 		}
 	});
-	$(document).on('turbolinks:before-cache',function(){
-		if(typeof datatable !== 'undefined'){
-			datatable.destroy();
-		}
-	})
+
 }
 $(document).on('turbolinks:load',ready);
