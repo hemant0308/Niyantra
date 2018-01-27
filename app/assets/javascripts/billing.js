@@ -15,7 +15,7 @@ ready = function(){
           updateTotal();
         }
       });
-      $('#due_container').removeClass('d-none');
+      $('#due_container').removeClass('d-none').addClass('animated bounceInDown');
     }else{
       $('#customer_name_input').autocomplete('destroy');
       $('#customer_name_input').val('');

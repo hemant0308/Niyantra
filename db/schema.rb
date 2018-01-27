@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180111094450) do
+ActiveRecord::Schema.define(version: 20180123175648) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -112,6 +112,7 @@ ActiveRecord::Schema.define(version: 20180111094450) do
     t.string "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["product_id", "property_id"], name: "index_product_properties_on_product_id_and_property_id", unique: true
     t.index ["product_id"], name: "index_product_properties_on_product_id"
     t.index ["property_id"], name: "index_product_properties_on_property_id"
   end
@@ -131,6 +132,7 @@ ActiveRecord::Schema.define(version: 20180111094450) do
     t.bigint "tax_id"
     t.bigint "shop_id"
     t.bigint "type_id"
+    t.integer "status", default: 1
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["shop_id"], name: "index_products_on_shop_id"
     t.index ["tax_id"], name: "index_products_on_tax_id"

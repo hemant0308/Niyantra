@@ -8,7 +8,7 @@ $(document).on('turbolinks:click',function(){
   $('.loader').show();
 });
 $(document).ready(function(){
-
+	
 });
 $.fn.fullScreen = function(){
   	if($(this)[0].requestFullscreen)

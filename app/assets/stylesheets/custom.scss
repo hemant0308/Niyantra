@@ -93,3 +93,7 @@ html{
 .table-btn span:hover{
 	font-size: 1.9em;
 }
+.modal table.dataTable>tbody>tr{
+	min-height: 15px;
+	font-size: .8rem;
+}
