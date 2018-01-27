@@ -168,4 +168,4 @@ var ready = function() {
     }, "Invalid offer value");
 
 }
-$(document).on('turbolinks:load', ready);
+$(document).ready(ready);

@@ -68,7 +68,11 @@ class BillingController < ApplicationController
 				total_price += price
 				total_net_price += net_price
 			end
-			can_commit &= bill.update(:net_price=>total_net_price,:total_price=>total_price,:paid_amount=>paid_amount)
+			total_price = params[:bill][:total]
+			total_offer = params[:bill][:offer]
+			total_net_price = total_price.to_f-total_offer.to_f
+			byebug
+			can_commit &= bill.update(:net_price=>total_net_price,:total_price=>total_price,:offer=>total_offer,:paid_amount=>paid_amount)
 
 			if noted_customer
 				last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer_id,current_shop]).order(created_at: :desc).reorder(id: :desc).limit(1)
@@ -129,7 +133,7 @@ class BillingController < ApplicationController
 	def get_product
 		connection = get_connection
 		id = params['code'].to_i
-		product = Product.find_by(:id=>id)
+		product = Product.find_by(:id=>id,:status=>1)
 		if(product)
 			temp_product = {}
 			temp_product['id'] = product.id

@@ -1,87 +1,146 @@
 <% provide(:title,'Billing') %>
-<% provide(:billing,'active') %>
-<div class="main">
-	<div class="content form-container">
-		<%= form_for(:bill,:html=>{:id=>'billing_form'}) do |bill| %>
-		<div class="sub-form mx-4" id="cust_form_contaner">
-			<%= bill.fields_for(:customer) do |customer| %>
-				<div class="row">
-					<div class="col-md-3 col-xs-4 col-sm-12">
-						<input type="hidden" name="bill[customer][id]" value="" id="bill_customer_id">
-						<div class="form-group">
-							<%= customer.label(:name,'Customer name') %>
-							<%= customer.text_field(:name,class:'form-control customer-name','id'=>'customer_name_input') %>
-							<label class="checkbox"> <input type="checkbox" id="noted_customer" name="noted_customer" value="yes"> Noted customer</label>
-
-						</div>
-
-					</div>
-					<div class="col-md-3 col-xs-4 col-sm-12">
-						<div class="form-group">
-							<%= customer.label(:phone,'Phone') %>
-							<%= customer.text_field(:phone,class:'form-control') %>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-4 col-sm-12">
-						<div class="form-group">
-							<%= customer.label(:email,'Email') %>
-							<%= customer.text_field(:email,class:'form-control') %>
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-4 col-sm-12">
-						<div class="form-group">
-							<%= customer.label(:email,'Address') %>
-							<%= customer.text_area(:email,class:'form-control') %>
-						</div>
-					</div>
-				</div>
-				<div class="row mx-2">
-					</div>
-			<% end %>
-		</div>
-		<div class="sub-form mx-4">
-				<div class="row">
-					<div class="col-md-3 col-xs-6 col-sm-12">
-						<div class="form-group">
-							<label for="product_code">Product Code</label>
-							<input type="text" class="form-control numerical" id="product_code">
-						</div>
-					</div>
-					<div class="col-md-3 col-xs-6 col-sm-12 px-0 mx-0">
-						<div class="total-net-price"><span class="fa fa-inr"></span> <span id="total_net_price">0.00</span></div>
-					</div>
-					<div class="col-md-6 col-xs-12 col-sm-12 d-none" id="due_container">
-						<div class="row">
-							<div class="col-md-3 col-xs-3 col-sm-6">
-								Due
-							</div>
-							<div class="col-md-3 col-xs-3 col-sm-6">
-								: <span class="fa fa-inr"></span> <span id="due" >0.00</span>
-							</div>
-							<div class="col-md-3 col-xs-3 col-sm-6">
-								Today payble
-							</div>
-							<div class="col-md-3 col-xs-3 col-sm-6">
-								: <span class="fa fa-inr"></span> <span id="today_payble">0.00</span>
-							</div>
-						</div>
-						<hr/>
-						<div class="row">	
-							<div class="col-md-3 col-xs-3 col-sm-6 pt-2">
-								Paid amount
-							</div>
-							<div class="col-md-3 col-xs-3 col-sm-6">
-								<input type="text" name="bill[paid_amount]" class="form-control numerical" id="paid_amount">
-							</div>
-							<div class="col-md-3 col-xs-3 col-sm-6">
-								Remaining Due
-							</div>
-							<div class="col-md-3 col-xs-3 col-sm-6">
-								: <span class="fa fa-inr"></span> <span id="remaining_due">0.00</span>
-							</div>
-						</div>	
-					</div>
-					<!--
+    <% provide(:billing,'active') %>
+        <div class="main">
+            <div class="content form-container">
+                <%= form_for(:bill,:html=>{:id=>'billing_form'}) do |bill| %>
+                    <div class="sub-form mx-4" id="cust_form_contaner">
+                        <%= bill.fields_for(:customer) do |customer| %>
+                            <div class="row">
+                                <div class="col-md-3 col-xs-4 col-sm-12">
+                                    <input type="hidden" name="bill[customer][id]" value="" id="bill_customer_id">
+                                    <div class="form-group">
+                                        <%= customer.label(:name,'Customer name') %>
+                                            <%= customer.text_field(:name,class:'form-control customer-name','id'=>'customer_name_input') %>
+                                                <label class="checkbox">
+                                                    <input type="checkbox" id="noted_customer" name="noted_customer" value="yes"> Noted customer</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-4 col-sm-12">
+                                    <div class="form-group">
+                                        <%= customer.label(:phone,'Phone') %>
+                                            <%= customer.text_field(:phone,class:'form-control') %>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-4 col-sm-12">
+                                    <div class="form-group">
+                                        <%= customer.label(:email,'Email') %>
+                                            <%= customer.text_field(:email,class:'form-control') %>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-xs-4 col-sm-12">
+                                    <div class="form-group">
+                                        <%= customer.label(:email,'Address') %>
+                                            <%= customer.text_area(:email,class:'form-control') %>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mx-2">
+                            </div>
+                            <% end %>
+                    </div>
+                    <div class="row mx-2">
+                        <div class="col-md-9">
+                            <div class="sub-form" id="item_container">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th width="15%">Item name</th>
+                                            <th width="15%">Desciption</th>
+                                            <th width="6%">Quantity</th>
+                                            <th width="12%">Unit price</th>
+                                            <th width="11%">Price</th>
+                                            <th width="10%">Discount</th>
+                                            <th width="9%">Tax</th>
+                                            <th width="12%">Net price</th>
+                                            <th width="10%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="bill_products">
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pl-0">
+                            <div class="sub-form">
+                            	<div class="row">
+                            		<div class="col-sm-6">
+                            			Total
+                            		</div>
+                            		<div class="col-sm-6">
+                            			<input type="text" class="form-control numerical" name="bill[total]" id="total_price">
+                            		</div>
+                            		<div class="col-sm-6">Discount</div>
+                            		<div class="col-sm-6"><input type="text" name="bill[offer]" class="form-control numerical" id="total_offer"></div>
+                            	</div>
+                            	<div class="row mt-1">	
+                            		<div class="col-sm-6">Net total</div>
+                            		<div class="col-sm-6 pl-4"><span class="fa fa-inr"></span> <span id="net_total_price">0.00</span></div>
+                            	</div>	
+                            	<div class="row mt-1">
+                            		<div class="col-sm-6">Total Products</div>
+                            		<div class="col-sm-6 pl-4"><span id="total_product_count">0</span></div>
+                            	</div>
+                            	<div class="row mt-1">
+                            		<div class="col-sm-6">Total Items</div>
+                            		<div class="col-sm-6 pl-4"><span id="total_items_count">0</span></div>
+                            	</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sub-form mx-4">
+                        <div class="row">
+                            <div class="col-md-3 col-xs-6 col-sm-12">
+                                <div class="form-group">
+                                    <label for="product_code">Product Code</label>
+                                    <input type="text" class="form-control numerical" id="product_code">
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-6 col-sm-12 px-0 mx-0">
+                                <div class="total-net-price"><span class="fa fa-inr"></span> <span id="total_net_price">0.00</span></div>
+                            </div>
+                            <div class="col-md-6 col-xs-12 col-sm-12 d-none" id="due_container">
+                                <div class="row">
+                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                        Due
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                        : <span class="fa fa-inr"></span> <span id="due">0.00</span>
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                        Today payble
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                        : <span class="fa fa-inr"></span> <span id="today_payble">0.00</span>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <div class="row">
+                                    <div class="col-md-3 col-xs-3 col-sm-6 pt-2">
+                                        Paid amount
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                        <input type="text" name="bill[paid_amount]" class="form-control numerical" id="paid_amount">
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                        Remaining Due
+                                    </div>
+                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                        : <span class="fa fa-inr"></span> <span id="remaining_due">0.00</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--
 					<% if false %>
 					<div class="col-md-3 col-md-3 col-xs-3 col-sm-12">
 						<div class="form-group">
@@ -97,29 +156,13 @@
 					</div>
 					<% end %>
 				-->
-				</div>
-		</div>
-		<div class="sub-form mx-4" id="item_container">
-			<table class="table table-bordered">
-				<thead>
-					<tr>
-						<th width="18%">Item name</th>
-						<th width="18%">Desciption</th>
-						<th width="7%">Quantity</th>
-						<th width="12%">Price</th>
-						<th width="12%">Discount</th>
-						<th width="11%">Tax</th>
-						<th width="12%">Net price</th>
-						<th width="10%"></th>
-					</tr>
-				</thead>
-				<tbody id="bill_products">
-					<tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="action-part mx-4">
-			<button class="btn btn-primary float-right">submit</button>
-		</div>
-	<% end %>
-	</div>
+                        </div>
+                        <div class="row">
+                        </div>
+                    </div>
+                    <div class="action-part mx-4">
+                        <button class="btn btn-primary float-right">submit</button>
+                    </div>
+                    <% end %>
+            </div>
+        </div>

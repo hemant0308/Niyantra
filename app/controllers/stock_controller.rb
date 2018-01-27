@@ -43,7 +43,7 @@ class StockController < ApplicationController
 		term = params['search']
 		page = params['page']
 		start_cnt = (page.to_i-1)*10;
-		products = connection.exec_query("select id,name from products where (id like '%#{term}%' OR name like '%#{term}') limit #{start_cnt},10");
+		products = connection.exec_query("select id,name from products where (id like '%#{term}%' OR name like '%#{term}') AND status = 1 limit #{start_cnt},10");
 		result = []
 		products.each do |product|
 			result.push({'text'=>(product['name'].to_s+' '+product['id'].to_s),'id'=>product['id']});

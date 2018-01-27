@@ -23,6 +23,14 @@
     		font-family: fantasy;
     	}
 	}
+	.form-group{
+		margin-bottom: 0px;
+	}
+}
+#item_container{
+	height: 30vh;
+	min-height: 230px;
+	overflow-y: scroll
 }
 .receipt{
 	margin: auto;

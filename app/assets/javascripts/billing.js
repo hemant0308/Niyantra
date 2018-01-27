@@ -96,7 +96,7 @@ ready = function(){
       var net_price = data.current_price - data.offer;
       total_price += net_price;
       var quantity = "<input type='text' class='form-control numerical quantity' name='quantity["+id+"]' value='1'>";
-      html = "<tr id='product_"+id+"' data-quantity='"+data.quantity+"'  price='"+net_price+"' data-id='"+id+"' data-price='"+parseFloat(data.current_price).toFixed(2)+"' data-offer='"+parseFloat(data.offer).toFixed(2)+"'><td><input type='hidden' name='product[]' value='"+id+"'>"+data.name+"</td><td>"+data.description+"</td><td>"+quantity+"</td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='price'>"+parseFloat(data.current_price).toFixed(2)+"</span></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='offer'>"+parseFloat(data.offer).toFixed(2)+"</span></td><td></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='net-price'>"+parseFloat(net_price).toFixed(2)+"</span></td><td><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></td></tr>";
+      html = "<tr id='product_"+id+"' data-quantity='"+data.quantity+"'  price='"+net_price+"' data-id='"+id+"' data-price='"+parseFloat(data.current_price).toFixed(2)+"' data-offer='"+parseFloat(data.offer).toFixed(2)+"'><td><input type='hidden' name='product[]' value='"+id+"'>"+data.name+"</td><td>"+data.description+"</td><td>"+quantity+"</td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='unit-price'>"+parseFloat(data.current_price).toFixed(2)+"</span></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='price'>"+parseFloat(data.current_price).toFixed(2)+"</span></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='offer'>"+parseFloat(data.offer).toFixed(2)+"</span></td><td></td><td><span class='fa fa-inr'></span>&nbsp;&nbsp;<span class='net-price'>"+parseFloat(net_price).toFixed(2)+"</span></td><td><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></td></tr>";
       $('#bill_products').prepend(html);
       $('#product_'+id+' .numerical').numeric();
       $('#product_code').val('');
@@ -122,6 +122,16 @@ ready = function(){
       calculate($(this).closest('tr').data('id'));
     }
   });
+  $(document).on('keyup','#total_offer,#net_total_price',function(){
+    var total = $('#total_price').val();
+    if(total != ''){
+      parseFloat(total);
+    }else{
+      total = 0.0;
+    }
+    
+    updateDue(total);
+  })
   // full screen mode
   function calculate(id){
       var parent = $('tr#product_'+id);
@@ -147,20 +157,44 @@ ready = function(){
   }
   function updateTotal(){
     var total = 0.00;
+    var offer = 0.00;
+    var total_products = 0;
+    var total_items = 0;
     $('#bill_products tr').not(':last-child').each(function(){
       total += parseFloat($(this).attr('price'));
-    });
+      offer += parseFloat($(this).attr('offer'));
+      var quantity = parseInt($(this  ).find('.quantity').val());
+      total_products++;
+      total_items += quantity;
+    }); 
+    $('#total_net_price').html(total.toFixed(2));
+    $('#total_product_count').html(total_products);
+    $('#total_items_count').html(total_items);
+    $('#total_price').val(total);
+    updateDue(total);
+  }
+  function updateDue(total){
+    var total = total;
+    var discount = $('#total_offer').val();
+    window.alert(discount);
+    if(discount != ''){
+      discount = parseFloat(discount);
+    }else{
+      discount = 0.0;
+    }
+    window.alert(total);
+    total = total-discount;
     var due = parseFloat($('#due').html());
     var paid_amount = $('#paid_amount').val();
     paid_amount = (paid_amount == '')?0:parseFloat(paid_amount);
     var remaining_due = due+total-paid_amount;
-    $('#remaining_due').html(remaining_due.toFixed(2));  
-    $('#total_net_price').html(total.toFixed(2));
+    $('#remaining_due').html(remaining_due.toFixed(2));
     $('#today_payble').html(total.toFixed(2));
+    $('#net_total_price').html(total); 
   }
   $(document).on('click','.del-prod',function(){
     $(this).closest('tr').remove();
     updateTotal();
-  })
+  });
 }
 $(document).ready(ready);
