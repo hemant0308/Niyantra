@@ -45,6 +45,10 @@ class ProductController < ApplicationController
 		render 'json':{'data':_products}
 	end
 	def create
+		if (params[:product][:brand_id].class == "str".class)
+			brand = Brand.create(name: params[:product][:brand_id])
+			params[:product][:brand_id] = brand.id
+		end
 		product = params[:product]
 		can_commit = true
 		if product[:id]!=''
@@ -56,7 +60,7 @@ class ProductController < ApplicationController
 			can_commit &= product.save
 			if can_commit
 				helpers.make_barcode product
-			end	
+			end
 		end
 		properties = params[:product][:property]
 		if properties
@@ -67,7 +71,7 @@ class ProductController < ApplicationController
 				else
 					can_commit &= ProductProperty.new(product_id:product.id,property_id:key,value:val).save()
 				end
-				
+
 			end
 		end
 		if can_commit

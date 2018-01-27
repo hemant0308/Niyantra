@@ -1,6 +1,9 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 var ready = function() {
+    $('.select3').select2({
+      tags: true
+    });
     $('#properties').select2({
         ajax: {
             url: '/product/get_properties',
@@ -44,10 +47,7 @@ var ready = function() {
         $(ele).append(html);
         $('#properties_table').parent().removeClass('d-none');
     }
-    if(typeof product_datatable != 'undefined'){
-        product_datatable.destroy();
-    }
-    product_datatable = datatable = $('#product_table').DataTable({
+    $('#product_table').DataTable({
         ajax: {
             url: '/get_products',
             type: 'POST',
@@ -55,7 +55,7 @@ var ready = function() {
         },
         "columnDefs": [{
                 "render": function(data,type,row){
-                 return "<form method='post' class='table-btn-container' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
+                 return "<form method='post' class='inline' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
                 "targets": -1,
             },
             {
@@ -92,9 +92,9 @@ var ready = function() {
             );
           }
           if(product.type_id){
-            $('#product_type_id').select2('val',product.type_id.toString());  
+            $('#product_type_id').select2('val',product.type_id.toString());
           }
-          
+
           $('#product_current_price').val(product.current_price);
           $('#product_offer_type').val(product.offer_type);
           $('#product_offer').val(product.offer);
@@ -121,7 +121,6 @@ var ready = function() {
     $(document).on('click','.del-prod',function(){
       if(window.confirm('Are you sure')){
         $(this).parent().submit();
-
       }
     })
     $('#product_form').validate({
