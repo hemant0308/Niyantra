@@ -37,6 +37,10 @@ class ProductController < ApplicationController
 		render 'json':{'data':_products}
 	end
 	def create
+		if (params[:product][:brand_id].class == "str".class)
+			brand = Brand.create(name: params[:product][:brand_id])
+			params[:product][:brand_id] = brand.id
+		end
 		product = Product.new(product_params)
 		if product.save
 			helpers.make_barcode product

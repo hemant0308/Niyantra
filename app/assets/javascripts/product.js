@@ -1,6 +1,9 @@
 // Place all the behaviors and hooks related to the matching controller here.
 // All this logic will automatically be available in application.js.
 var ready = function(){
+  $('.select3').select2({
+    tags: true
+  });
   $('#properties').select2({
     ajax: {
       url : '/product/get_properties',
