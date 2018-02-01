@@ -1,19 +1,27 @@
 <% provide(:title,'Stock') %>
 <% provide(:stock,'active') %>
 <div class="main">
-	<div class="action-part pr-4">
-		<%= link_to '<i class="fa fa-plus"></i> Add stock'.html_safe, stock_new_path,class:'float-right btn btn-primary btn-pill ' %>
-	</div>
-	<div class="content">
-		<div class="stock-table-container">
-			<table class="stock-table table table-bordered" id="stock_table" width="100%">
-				<thead><tr><th>Supplier name</th><th>Number of products</th><th>Total qunatity</th><th>Total price</th><th>Paid amount</th><th>Arrived on</th></tr></thead>
-			</table>
-		</div>
-	</div>
+    <div class="action-part pr-4">
+        <button class="btn btn-primary float-right" id="add_stock" data-toggle="modal" data-target="#new_stock_modal">Add stock</button>
+    </div>
+    <div class="content">
+        <div class="stock-table-container">
+            <table class="stock-table table table-bordered" id="stock_table" width="100%">
+                <thead>
+                    <tr>
+                        <th>Supplier name</th>
+                        <th>Total qunatity</th>
+                        <th>Total price</th>
+                        <th>Paid amount</th>
+                        <th>Arrived on</th>
+                        <th></th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 </div>
-
-<div class="modal fade" id="new_stock_modal" tabindex="-1" role="dialog" aria-labelledby="Add new stock" aria-hidden="true">
+<div class="modal fade" id="new_stock_modal" role="dialog" aria-labelledby="Add new stock" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -23,11 +31,95 @@
                 </button>
             </div>
             <div class="modal-body">
-            	<div class="modal-footer">
-               		<button type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-                	<button type="button" class="btn btn-danger" data-dismiss="modal">cancel</button>
-            	</div>
-        	</div>
-   		</div>
-	</div>
+                <div class="stock-form">
+                    <%= form_for(:stock,method:'post',:html=>{'id':'stock_form'}) do |stock| %>
+                        <div class="row">
+                            <div class="col-md-6 col-xs-4 col-sm-12">
+                                <div class="form-group">
+                                    <%= stock.label(:supplier_id,'supplier name') %>
+                                        <%= stock.select(:supplier_id,@suppliers) %>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-4 col-sm-6">
+                                <div class="form-group">
+                                    <%= stock.label(:total_price) %>
+                                        <%= stock.text_field(:total_price,class:'form-control numerical') %>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-xs-4 col-sm-6">
+                                <div class="form-group">
+                                    <%= stock.label(:paid_amount) %>
+                                        <%= stock.text_field(:paid_amount,class:'form-control numerical') %>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="stock-products-container">
+                            <center><h5>Products</h5></center><hr>
+                            <div class="stock-products" id="stock_products">
+                                <div class="row mb-4">
+                                    <div class="col-md-2">
+                                        <%= label_tag(:product_id,'product') %>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <%= select_tag(:product_id,'',class:'form-control product-id',name:'product[][product_id]',id:'') %>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <%= label_tag(:quantity) %>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <%= text_field_tag(:quantity,'',class:'form-control',name:'product[][quantity]',id:'') %>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-primary btn-pill p-2 add-prod" type="button"><span class="fa fa-plus"></span></button>
+                                        <button class="btn btn-danger btn-pill d-none del-prod p-2" type="button"><span class="fa fa-minus"></span></button>
+                                    </div>
+                                </div>
+                                <!--   <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Product Id</th>
+                                            <th>Current price</th>
+                                            <th >Offer type</th>
+                                            <th >Offer</th>
+                                            <th >Effective date</th>
+                                            <th >Quantity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="stock_products">
+
+                                    <% (1..1).each do |i| %>
+                                        <tr>
+                                            <td>
+                                              <%= select_tag(:product_id,'',class:'form-control product-id',name:'product[][product_id]',id:'') %>
+                                            </td>
+                                            <td>
+                                                <%= text_field_tag(:current_price,'',class:'form-control numerical current_price',name:'product[][current_price]',id:'') %>
+                                            </td>
+                                            <td>
+                                                <%= select_tag(:offer_type,options_for_select([['select offer type',''],['discount',1],['cutoff',2]]),{:class=>'form-control numerical offer-type',:name=>'product[][offer_type]',:id=>''}) %>
+                                            </td>
+                                            <td>
+                                                <%= text_field_tag(:offer,'',class:'form-control numerical offer',name:'product[][offer]',id:'') %>
+                                            </td>
+                                            <td>
+                                                <%= text_field_tag(:effective_date,'',class:'form-control effective-date',name:'product[][effective_date]',id:'') %>
+                                            </td>
+                                            <td>
+                                                <%= text_field_tag(:quantity,'',class:'form-control numerical product-quantity',name:'product[][quantity]',id:'') %>
+                                            </td>
+                                        </tr>
+                                    <% end %>
+                                    </tbody>
+                                </table> -->
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">cancel</button>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

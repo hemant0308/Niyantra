@@ -6,7 +6,7 @@ class CustomerController < ApplicationController
     result = []
     _customers.each do |customer|
       customer = customer.attributes
-      last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer['id'],current_shop]).order(created_at: :desc).reorder(id: :desc).limit(1)
+      last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer['id'],current_shop['id']]).order(created_at: :desc).reorder(id: :desc).limit(1)
       due = 0.0
       if last_transaction.length > 0
         due = last_transaction[0].due

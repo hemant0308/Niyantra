@@ -14,7 +14,7 @@ class ProductController < ApplicationController
 		end
 	end
 	def get_products
-		@products = Product.select('*').where('status = 1');
+		@products = Product.select('*').where(['shop_id = ? AND status = 1',current_shop['id']]);
 		_products = []
 		properties = {}
 		@products.each do |product|
@@ -22,14 +22,14 @@ class ProductController < ApplicationController
 			brand = Brand.where(['id = ?',brand_id]).select('name')
 			offer_type = 'no offer'
 			offer = '-'
-			offer_types = {1=>'Discount',2=>'Cutoff'}
 			if product['offer_type']
 				offer = product['offer'];
 				offer_type = product['offer_type']
 				if offer_type==1
 					offer = offer.to_s+'%'
-				end
-				offer_type = offer_types[offer_type]
+				elsif offer_type == 2
+					offer = format_float(offer)
+				end	
 			end
 			product_properties = product.product_properties
 			properties_text = []
@@ -40,7 +40,7 @@ class ProductController < ApplicationController
 				property = properties[product_property.property_id]
 				properties_text.push(property[:name] + ' : ' + product_property[:value])
 			end
-			_products.push([(product['id']).to_s.rjust(8,'0'),product['name'],brand[0]['name'],properties_text.join('<br>'),'',product['current_price'],offer_type,offer,product['quantity'],product['id']])
+			_products.push([(product['id']).to_s.rjust(8,'0'),product['name'],brand[0]['name'],properties_text.join('<br>'),'',product['current_price'],offer,product['quantity'],product['id']])
 		end
 		render 'json':{'data':_products}
 	end
@@ -49,6 +49,7 @@ class ProductController < ApplicationController
 			brand = Brand.create(name: params[:product][:brand_id])
 			params[:product][:brand_id] = brand.id
 		end
+		params[:product][:shop_id] = current_shop['id']
 		product = params[:product]
 		can_commit = true
 		if product[:id]!=''
@@ -62,6 +63,7 @@ class ProductController < ApplicationController
 				helpers.make_barcode product
 			end
 		end
+		byebug
 		properties = params[:product][:property]
 		if properties
 			properties.each do |key,val|
@@ -114,6 +116,6 @@ class ProductController < ApplicationController
 	end
 	private
 		def product_params
-			params.require(:product).permit(:id,:brand_id,:type_id,:name,:current_price,:offer_type,:offer)
+			params.require(:product).permit(:id,:brand_id,:shop_id,:type_id,:name,:current_price,:offer_type,:offer)
 		end
 end

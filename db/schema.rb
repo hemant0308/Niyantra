@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180123175648) do
+ActiveRecord::Schema.define(version: 20180131171423) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -211,8 +211,17 @@ ActiveRecord::Schema.define(version: 20180123175648) do
     t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "supplier_id"
     t.index ["shop_id"], name: "index_stocks_on_shop_id"
+    t.index ["supplier_id"], name: "index_stocks_on_supplier_id"
     t.index ["user_id"], name: "index_stocks_on_user_id"
+  end
+
+  create_table "suppliers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name"
+    t.string "address"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "taxes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -275,6 +284,7 @@ ActiveRecord::Schema.define(version: 20180123175648) do
   add_foreign_key "stock_items", "products"
   add_foreign_key "stock_items", "stocks"
   add_foreign_key "stocks", "shops"
+  add_foreign_key "stocks", "suppliers"
   add_foreign_key "stocks", "users"
   add_foreign_key "users", "shops"
 end

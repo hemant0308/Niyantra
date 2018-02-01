@@ -4,7 +4,7 @@ var ready = function(){
 	datatable = $('#customers_table').DataTable({
 		ajax:{
 			url:'/get_customers',
-          	type : 'POST',
+          	type : 'GET',
           	data : {'authenticity_token':AUTH_TOKEN }
 		},
 		"columnDefs": [{

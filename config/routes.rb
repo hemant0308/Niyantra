@@ -12,7 +12,7 @@ Rails.application.routes.draw do
 
   get '/stock'=>'stock#index'
   get '/stock/new'=>'stock#new'
-  post '/stock/new'=>'stock#create'
+  post '/stock'=>'stock#create'
   post '/getstocks' => 'stock#get_stocks'
   get '/stock/getproducts' => 'stock#get_products'
 
@@ -24,8 +24,10 @@ Rails.application.routes.draw do
 
 
   get '/customers'=>'customer#index'
-  post '/get_customers' => 'customer#get_customers'
+  get '/get_customers' => 'customer#get_customers'
   post '/customers/get_transactions' => 'customer#get_transactions'
+
+  post '/profile/password' => 'profile#update_password', :as=>'update_password' 
   #admin namespace
   namespace :admin do
     get '/controls', to: 'dashboard#index'

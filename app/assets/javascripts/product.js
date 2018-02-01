@@ -59,7 +59,7 @@ var ready = function() {
                 "targets": -1,
             },
             {
-                "targets": [3, 4, 9],
+                "targets": [3, 4, 8],
                 "orderable": false
             },
             {
@@ -70,7 +70,7 @@ var ready = function() {
                 "createdCell": function(td, cellData, rowData, row, col) {
                     $(td).addClass('text-right');
                 },
-                "targets": -5
+                "targets": 5
             }
         ],
         "createdRow": function(row, data, dataIndex) {

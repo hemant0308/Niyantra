@@ -4,4 +4,5 @@ class Shop < ApplicationRecord
   belongs_to :district
   belongs_to :city
   belongs_to :shop_category
+  has_many :users
 end

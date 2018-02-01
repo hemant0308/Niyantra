@@ -2,7 +2,7 @@
     <div class="page-loader"></div>
 </div>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
-    <a class="navbar-brand" href="#"><i class="fa fa-building-o"></i> Shop name</a>
+    <a class="navbar-brand" href="#"><i class="fa fa-building-o"></i> <%= current_shop['name'] %></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown-1" aria-controls="navbarNavDropdown-1" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,26 +17,21 @@
             </li>
             <li class="nav-item <%= yield(:customers) %> ">
                 <%= link_to '<i class="fa fa-users"></i> Customers'.html_safe, customers_path,class:"nav-link" %>
-            <li class="nav-item <%= yield(:products) %> ">
-                <%= link_to '<i class="fa fa-product-hunt"></i> Products'.html_safe, products_path,class:"nav-link" %>
-            </li>
-            <li class="nav-item dropdown <%= yield(:stock) %>">
-                <a class="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-shopping-cart"></i> Stock
-                            </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <%= link_to 'stocks'.html_safe, stock_path,class:"dropdown-item" %>
-                    <%= link_to 'Add stock'.html_safe, stock_new_path,class:"dropdown-item" %>
-                </div>
-            </li>
+                    <li class="nav-item <%= yield(:products) %> ">
+                        <%= link_to '<i class="fa fa-product-hunt"></i> Products'.html_safe, products_path,class:"nav-link" %>
+                    </li>
+                    <li class="nav-item <%= yield(:stock) %> ">
+                        <%= link_to '<i class="fa fa fa-shopping-cart"></i> Stocks'.html_safe, stock_path,class:"nav-link" %>
+                    </li>
         </ul>
         <ul class="navbar-nav float-right mr-4">
             <li class="nav-item dropdown active">
                 <a class="nav-link dropdown-toggle" href="https://designrevision.com" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <span class="fa fa-user"></span> user name
+                        <span class="fa fa-user"></span> <%= current_user[:email] %>
                             </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <%= link_to '<i class="fa fa-user"></i> profile'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
+                        <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#password_modal"><i class="fa fa-sign-out"></i> Change password</a>
                         <%= link_to '<i class="fa fa-sign-out"></i> Sign out'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
                 </div>
             </li>
@@ -54,3 +49,31 @@
         </ul>
     </div>
 </nav>
+<div class="modal fade" id="password_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Change password
+                <span aria-hidden="true" class="close" data-dismiss="modal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <%= form_tag update_password_path , method:'post' ,id:'password_form' %>
+                    <div class="login-form">
+                        <div class="form-group">
+                            <label for="old_password">Old password</label>
+                            <input type="password" name="old" class="form-control" id="old_password">
+                            <label for="password">New password</label>
+                            <input type="password" name="password" class="form-control" id="password">
+                            <label for="re_password">Re enter your password</label>
+                            <input type="password" name="password_confirmation" class="form-control" id="re_password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">cancel</button>
+                    </div>
+                </form>    
+            </div>
+        </div>
+    </div>
+</div>

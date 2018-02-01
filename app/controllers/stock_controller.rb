@@ -1,5 +1,12 @@
 class StockController < ApplicationController
 	include ApplicationHelper
+	def index
+		_suppliers = Supplier.select("id,name")
+		@suppliers = []
+		_suppliers.each do |supplier|
+			@suppliers.push([supplier.name,supplier.id])
+		end
+	end
 	def new
 		@brands = []
 		@types = [['shirt',1],['pant',2]];
@@ -11,29 +18,35 @@ class StockController < ApplicationController
 	end
 	def create
 		@stock = stock_params
-		@stock[:shop_id] = current_shop
-		@stock[:user_id] = current_user
-		stock = Stock.new(@stock)
 		can_commit = true
+		if(@stock[:supplier_id].to_i == 0)
+			supplier = Supplier.new(:name=>@stock[:supplier_id])
+			can_commit &= supplier.save
+			@stock[:supplier_id] = supplier.id
+		end
+		@stock[:shop_id] = current_shop['id']
+		@stock[:user_id] = current_user['id']
+		stock = Stock.new(@stock);
 		if stock.save
 			stock_id = stock.id
 			products = params[:product]
+			total = 0
 			products.each do |product|
 				product[:stock_id] = stock_id
-				product[:price] = product['current_price']
 				product_id = product['product_id'];
 				if(product_id.to_i == 0)
 					break
 				end
-				if(check_product (product_id))
-					product = StockItem.new(product_params(product))
-					can_commit &= product.save
-					can_commit &= Product.where(["id = ?",product.product_id]).update_all(["quantity = quantity + ?",product.quantity])
-				end
+				total += product['quantity'].to_i
+				product = StockItem.new(product_params(product))
+				can_commit &= product.save
+				can_commit &= Product.where(["id = ?",product.product_id]).update_all(["quantity = quantity + ?",product.quantity])
+			end
+			stock[:total_quantity] = total
+			can_commit &= stock.save
 		end
 		if can_commit
 			redirect_to stock_path
-		end
 		else
 			render 'json'=>stock
 		end
@@ -51,18 +64,17 @@ class StockController < ApplicationController
 		render 'json':{'results':result,'pagination':{'pagination':page}}
 	end
 	def get_stocks
-		connection = get_connection
-		stocks = Stock.select('id,supplier_name,total_price,paid_amount,total_quantity,created_at');
+		stocks = Stock.select('id,supplier_id,total_price,paid_amount,total_quantity,created_at').where(['shop_id = ?',current_shop['id']]);
 		_stocks = []
 		stocks.each do |stock|
-			product_count = stock.products.length
-			_stocks.push([stock['supplier_name'],product_count,stock['total_quantity'],stock['total_price'],stock['paid_amount'],format_date(stock['created_at'])])
+			supplier_name = stock.supplier.name
+			_stocks.push([supplier_name,stock['total_quantity'],stock['total_price'],stock['paid_amount'],format_date(stock['created_at']),stock['id']])
 		end
 		render 'json':{'data':_stocks}
 	end
 	private
 		def stock_params
-			params.require(:stock).permit(:supplier_name,:total_quantity,:total_price,:paid_amount)
+			params.require(:stock).permit(:supplier_id,:total_price,:paid_amount)
 		end
 		def product_params(params)
 			params.permit(:stock_id,:product_id,:effective_date,:price,:quantity,:offer,:offer_type)
