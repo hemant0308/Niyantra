@@ -36,23 +36,16 @@ select.form-control{
 	margin-top: 5px;
 }
 .stock-products-container{
-
-	.stock-products table{
-		thead{
-			display: table;
-			width: 100%;
-		}
-		tbody{
-			max-height: 45vh;
-			overflow-y: scroll;
-			display: block;
-			width: 100%;
-		}
-		tr{
-			width: 100%;
-			table-layout: fixed;
-			display: table;
-		}
+	.stock-products{
+		max-height: 40vh;
+		overflow-y:scroll;
+		padding: 5px 10px;
+	}
+	.help-text{
+		color: #28a745;
+		font-size: 80%;
+		width: 100%;
+		margin-top: 0.25rem;
 	}
 }
 .table tr td,.table tr th{

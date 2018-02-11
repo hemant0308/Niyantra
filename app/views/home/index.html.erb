@@ -1,2 +1,52 @@
 <% provide(:home,'active') %>
 <% provide(:title,'Home') %>
+<div class="main">
+    <div class="row row-1">
+        <div class="col-md-12"></div>
+        <div class="col-md-8 col-sm-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Recent Purchases</div>
+                    <ul class="list-group">
+                    	<% i=0
+                    	   colors = ['success','warning']
+                    	 %>
+                    	<% @bills.each do |bill| %>
+                    	<li class="list-group-item list-group-item-<%= colors[i%2] %>" >
+                    		<div class="row">
+                    		<div class="col-md-6 bold-2"><%= bill['customer_name'].capitalize %></div>
+                    		<div class="col-md-6 bold-4 text-right"><span class="fa fa-inr"></span> <%= format_float(bill['net_price']) %></div>	
+                    		</div>
+                    		
+                    	</li>
+                    	<% i=i+1 %>
+                    	<% end %>
+                        <% if(@bills.length == 0) %>
+                            <li class="list-group-item list-group-item-danger">No purchases placed</li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-8">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Today report</div>
+                    <div class="cash-item">
+                        <div class="title">Total sales</div>
+                        <div class="cash"><span class="fa fa-inr"></span><span> <%= @total %></span></div>
+                    </div>
+                    <div class="cash-item">
+                        <div class="title">Cash in counter</div>
+                        <div class="cash"><span class="fa fa-inr"></span><span> <%= @paid %></span></div>
+                    </div>
+                    <hr>
+                    <div class="cash-item">
+                        <div class="title">Cash from customers</div>
+                        <div class="cash"><i class="fa fa-inr"></i><span> <%= @total_due %></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -27,7 +27,12 @@ ready = function(){
 
   });
   $('#product_code').keyup(function(event){
-    var code = $(this).val();
+    getProduct($(this).val());
+  });
+  $('#product_code').change(function(event){
+    getProduct($(this).val());
+  })
+  function getProduct(code){
     if(code.length==6){
       $.ajax({
         'url':'/billing/get_product',
@@ -39,7 +44,7 @@ ready = function(){
       });
       last = code
     }
-  });
+  }
   $('#product_code').keypress(function(event){
     if(event.keyCode >= 48 && event.keyCode <= 122){
       if($(this).val().length==6){
@@ -142,7 +147,7 @@ ready = function(){
       var remaining_quantity = parseInt($(parent).data('quantity'));
       quantity = parseInt(quantity);
       if(quantity > remaining_quantity){
-        window.alert('maximum '+remaining_quantity+' items only');
+        //window.alert('maximum '+remaining_quantity+' items only');
         $(parent).find('.quantity').val(remaining_quantity);
         quantity = remaining_quantity;
       }
@@ -176,13 +181,13 @@ ready = function(){
   function updateDue(total){
     var total = total;
     var discount = $('#total_offer').val();
-    window.alert(discount);
+    //window.alert(discount);
     if(discount != ''){
       discount = parseFloat(discount);
     }else{
       discount = 0.0;
     }
-    window.alert(total);
+   // window.alert(total);
     total = total-discount;
     var due = parseFloat($('#due').html());
     var paid_amount = $('#paid_amount').val();
@@ -196,5 +201,8 @@ ready = function(){
     $(this).closest('tr').remove();
     updateTotal();
   });
+  $(document).on('focus','.quantity',function(){
+    $(this).select();
+  })
 }
 $(document).ready(ready);

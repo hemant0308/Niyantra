@@ -1,6 +1,3 @@
-<div class="loader">
-    <div class="page-loader"></div>
-</div>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
     <a class="navbar-brand" href="#"><i class="fa fa-building-o"></i> <%= current_shop['name'] %></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown-1" aria-controls="navbarNavDropdown-1" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +28,7 @@
                             </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <%= link_to '<i class="fa fa-user"></i> profile'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
-                        <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#password_modal"><i class="fa fa-sign-out"></i> Change password</a>
+                        <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#password_modal"><i class="fa fa-key"></i>  Change password</a>
                         <%= link_to '<i class="fa fa-sign-out"></i> Sign out'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
                 </div>
             </li>

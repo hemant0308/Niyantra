@@ -13,8 +13,59 @@ html{
 	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
 	}
 }
+nav:-moz-full-screen{
+    display:none;
+}
+nav:-moz-fullscreen{
+    display:none;
+}
+nav:-ms-fullscreen{
+    display:none;
+}
+nav:-webkit-full-screen{
+    display:none;
+}
+nav:-webkit-fullscreen{
+    display:none;
+}
+nav:fullscreen{
+    display:none;
+}
+body{
+	background-color: #007bff1a;
+}
 .main{
 	margin: 20px 40px;
+	padding: 10px 20px;
+}
+.panel{
+	background-color: var(--white);
+	border-radius: 10px;
+	border: solid #697481 1.5px;
+}
+.cash-item{
+    color: #292f33;
+    font-weight: 700;
+    margin-bottom: 10px;
+    display:flex;
+	.cash{
+    	border: 1px solid black;
+    	border-radius: 0px 5px 5px 0px;
+		padding: 10px;
+		border: 1px solid #becad6;
+    	background-color: #f9fafb;
+    	border: 1px solid #becad6;
+    	float:right;
+    	width: 40%;
+    	text-align: right;
+	}
+	.title{
+    	border: 1px solid #becad6;
+    	border-radius:5px 0px 0px 5px; 	;
+    	border-right: none;
+    	padding: 10px;
+    	width: 60%;
+	}
 }
 :-webkit-full-screen {
 	margin: 0px;
@@ -44,24 +95,9 @@ html{
 		display: none;
 	}
 }
-.table{
-	::-webkit-scrollbar {
-	    width: 5px;
-	}
 
-	::-webkit-scrollbar-track {
-	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	    border-radius: 4px;
-	}
-
-	::-webkit-scrollbar-thumb {
-	    border-radius: 4px;
-	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
-	}
-}
 .loader{
 	position: fixed; /* Sit on top of the page content */
-	display: none; /* Hidden by default */
 	width: 100%; /* Full width (cover the whole page) */
 	height: 100%; /* Full height (cover the whole page) */
 	top: 0;
@@ -80,6 +116,8 @@ html{
   background-color: var(--primary);
   top: 68px;
 }
+
+/* table stylings */
 .table-btn-container{
 	display: inline-block !important;
 }
@@ -102,4 +140,46 @@ table.dataTable>tbody>tr>td{
 .modal table.dataTable>tbody>tr{
 	min-height: 15px;
 	font-size: .8rem;
+}
+.table{
+	::-webkit-scrollbar {
+	    width: 5px;
+	}
+
+	::-webkit-scrollbar-track {
+	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	    border-radius: 4px;
+	}
+
+	::-webkit-scrollbar-thumb {
+	    border-radius: 4px;
+	    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+	}
+}
+
+
+/* typography */
+.bold-1{
+	font-weight: 500;
+}
+.bold-2{
+	font-weight: 600;
+}
+.bold-3{
+	font-weight: 650;
+}
+.bold-4{
+	font-weight: 700;
+}
+
+/* modal stylings */
+
+.modal{
+	.modal-body{
+		padding: 5px 5px;
+	}
+	.modal-dialog.modal-lg{
+		min-width: 	1000px;
+		margin: 20px auto;
+	}
 }

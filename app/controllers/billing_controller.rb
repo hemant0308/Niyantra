@@ -29,10 +29,10 @@ class BillingController < ApplicationController
 			bill[:customer_email] = customer[:email]
 			bill[:customer_address] = customer[:address]
 			bill[:customer_id] = customer_id
-			bill[:shop_id] = current_shop
+			bill[:shop_id] = current_shop['id']
 			can_commit &= bill.save
 			if(!can_commit)
-				byebug
+				
 			end
 			products = params[:product]
 			_quantity = params[:quantity]
@@ -62,7 +62,7 @@ class BillingController < ApplicationController
 				bill_item[:net_price] = net_price
 				can_commit &= bill_item.save
 				if(!can_commit)
-					byebug
+					
 				end
 				Product.where('id = ?',product_id).update_all(['quantity = quantity - ?',quantity])
 				total_price += price
@@ -71,18 +71,18 @@ class BillingController < ApplicationController
 			total_price = params[:bill][:total]
 			total_offer = params[:bill][:offer]
 			total_net_price = total_price.to_f-total_offer.to_f
-			byebug
+			
 			can_commit &= bill.update(:net_price=>total_net_price,:total_price=>total_price,:offer=>total_offer,:paid_amount=>paid_amount)
 
 			if noted_customer
-				last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer_id,current_shop]).order(created_at: :desc).reorder(id: :desc).limit(1)
+				last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer_id,current_shop['id']]).order(created_at: :desc).reorder(id: :desc).limit(1)
 				due = 0.00
 				if(last_transaction.length !=0)
 					due = last_transaction[0].due.to_f
 				end
 				transaction = CustomerTransaction.new
 				transaction.bill_id = bill.id
-				transaction.shop_id = current_shop
+				transaction.shop_id = current_shop['id']
 				transaction.customer_id = customer_id
 				transaction.amount = total_net_price
 				due = due+total_net_price
@@ -91,17 +91,17 @@ class BillingController < ApplicationController
 				if paid_amount.to_f > 0
 					transaction = CustomerTransaction.new
 					transaction.bill_id = bill.id
-					transaction.shop_id = current_shop
+					transaction.shop_id = current_shop['id']
 					transaction.customer_id = customer_id
 					transaction.amount = -1*(paid_amount.to_f)
 					due = due-paid_amount.to_f
 					transaction.due = due
 					can_commit &= transaction.save
 				end
-				byebug
+				
 			end
 			if(!can_commit)
-				byebug
+				
 			end
 			if can_commit
 				redirect_to '/billing/receipt/'+bill.id.to_s
@@ -118,7 +118,7 @@ class BillingController < ApplicationController
 		_customers = Customer.select("id,name,phone,email,address").where(["name like ? OR id= ? OR phone like ?","%#{search}%","#{search}","#{search}"]).limit(10);
 		_customers.each do |customer|
 			if customer['name']
-				last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer.id,current_shop]).order(created_at: :desc).limit(1)
+				last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer.id,current_shop['id']]).order(created_at: :desc).limit(1)
 				due = 0.00
 				if(last_transaction.length !=0)
 					due = last_transaction[0].due
@@ -133,7 +133,7 @@ class BillingController < ApplicationController
 	def get_product
 		connection = get_connection
 		id = params['code'].to_i
-		product = Product.find_by(:id=>id,:status=>1)
+		product = Product.find_by(:id=>id,:status=>1,:shop_id=>current_shop['id'])
 		if(product)
 			temp_product = {}
 			temp_product['id'] = product.id
@@ -161,7 +161,7 @@ class BillingController < ApplicationController
 			product = Product.find_by(:id=>bill_item.product_id)
 		 	@products.push(:name=>product.name,:description=>'description',:quantity=>bill_item.quantity,:amount=>bill_item.net_price)
 		end
-		@shop = Shop.find_by(:id=>current_shop)
+		@shop = Shop.find_by(:id=>current_shop['id'])
 	end
 	private
 		def customer_params(customer)

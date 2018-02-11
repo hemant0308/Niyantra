@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180131171423) do
+ActiveRecord::Schema.define(version: 20180210125412) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -121,8 +121,6 @@ ActiveRecord::Schema.define(version: 20180131171423) do
     t.bigint "brand_id"
     t.string "name"
     t.text "description"
-    t.string "color"
-    t.string "size"
     t.float "current_price", limit: 24
     t.integer "offer_type"
     t.float "offer", limit: 24
@@ -133,6 +131,7 @@ ActiveRecord::Schema.define(version: 20180131171423) do
     t.bigint "shop_id"
     t.bigint "type_id"
     t.integer "status", default: 1
+    t.float "purchase_price", limit: 24
     t.index ["brand_id"], name: "index_products_on_brand_id"
     t.index ["shop_id"], name: "index_products_on_shop_id"
     t.index ["tax_id"], name: "index_products_on_tax_id"
@@ -196,8 +195,8 @@ ActiveRecord::Schema.define(version: 20180131171423) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.float "offer", limit: 24
-    t.integer "offer_type"
+    t.float "purchase_price", limit: 24
+    t.float "retail_price", limit: 24
     t.index ["product_id"], name: "index_stock_items_on_product_id"
     t.index ["stock_id"], name: "index_stock_items_on_stock_id"
   end

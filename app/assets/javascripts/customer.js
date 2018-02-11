@@ -41,19 +41,21 @@ var ready = function(){
     var id = $(row).data('id');
     var name = $(row).data('name');
     var due = $(row).data('due');
+    $('#customer_due').html(due);
+    $('.view-trans-container').removeClass('d-none');
+    $('.add-trans-container').addClass('d-none');
+    $('#view_trans').find('.modal-dialog').addClass('modal-lg')
     if(current != id){
       if(typeof customer_datatable !== 'undefined'){
         customer_datatable.destroy();
       }
-      datatable = customer_datatable = $('#customer_transactions').DataTable({
+      customer_datatable = $('#customer_transactions').DataTable({
         ajax:{
           url:'/customers/get_transactions',
-          type : 'POST',
+          type : 'GET',
           data : {'authenticity_token':AUTH_TOKEN,'id':id }
         },
         'initComplete':function(settings,json){
-          $('#customer_name').html(name);
-          $('#customer_due').html(parseFloat(due).toFixed(2));
           $('#view_trans').attr('data-current',id);
           $('#view_trans').modal('show');
         },
@@ -64,6 +66,25 @@ var ready = function(){
       $('#view_trans').modal('show');
     }
     
-  })
+  });
+  $(document).on('click','.add-trans',function(){
+    var ele = $(this).closest('tr');
+    var id = ele.data('id');
+    var due = ele.data('due');
+    var name = ele.data('name');
+    $('#customer_id').val(id);
+    $('#customer_name').html(name);
+    $('#customer_due').html(due);
+    $('#cust_due').val(due);
+    $('.view-trans-container').addClass('d-none');
+    $('.add-trans-container').removeClass('d-none');
+    $('#view_trans').find('.modal-dialog').removeClass('modal-lg');
+    $('#view_trans').modal('show');
+  });
+  $('#customer_transaction').validate({
+    rules:{
+      'amount':{required:'true',lessThan:'#cust_due'}
+    }
+  });
 }
 $(document).ready(ready)

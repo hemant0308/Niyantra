@@ -3,7 +3,7 @@
         <div class="main">
             <div class="content form-container">
                 <%= form_for(:bill,:html=>{:id=>'billing_form'}) do |bill| %>
-                    <div class="sub-form mx-4" id="cust_form_contaner">
+                    <div class="sub-form mx-4 panel" id="cust_form_contaner">
                         <%= bill.fields_for(:customer) do |customer| %>
                             <div class="row">
                                 <div class="col-md-3 col-xs-4 col-sm-12">
@@ -40,7 +40,7 @@
                     </div>
                     <div class="row mx-2">
                         <div class="col-md-9">
-                            <div class="sub-form" id="item_container">
+                            <div class="sub-form panel" id="item_container">
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -72,7 +72,7 @@
                             </div>
                         </div>
                         <div class="col-md-3 pl-0">
-                            <div class="sub-form">
+                            <div class="sub-form panel">
                             	<div class="row">
                             		<div class="col-sm-6">
                             			Total
@@ -83,22 +83,22 @@
                             		<div class="col-sm-6">Discount</div>
                             		<div class="col-sm-6"><input type="text" name="bill[offer]" class="form-control numerical" id="total_offer"></div>
                             	</div>
-                            	<div class="row mt-1">	
+                            	<div class="row mt-3">	
                             		<div class="col-sm-6">Net total</div>
-                            		<div class="col-sm-6 pl-4"><span class="fa fa-inr"></span> <span id="net_total_price">0.00</span></div>
+                            		<div class="col-sm-6 pl-4 bold-3"><span class="fa fa-inr"></span> <span id="net_total_price">0.00</span></div>
                             	</div>	
-                            	<div class="row mt-1">
+                            	<div class="row mt-3">
                             		<div class="col-sm-6">Total Products</div>
-                            		<div class="col-sm-6 pl-4"><span id="total_product_count">0</span></div>
+                            		<div class="col-sm-6 pl-4 bold-3"><span id="total_product_count">0</span></div>
                             	</div>
-                            	<div class="row mt-1">
+                            	<div class="row mt-3">
                             		<div class="col-sm-6">Total Items</div>
-                            		<div class="col-sm-6 pl-4"><span id="total_items_count">0</span></div>
+                            		<div class="col-sm-6 pl-4 bold-3"><span id="total_items_count">0</span></div>
                             	</div>
                             </div>
                         </div>
                     </div>
-                    <div class="sub-form mx-4">
+                    <div class="sub-form mx-4 panel">
                         <div class="row">
                             <div class="col-md-3 col-xs-6 col-sm-12">
                                 <div class="form-group">
@@ -114,17 +114,17 @@
                                     <div class="col-md-3 col-xs-3 col-sm-6">
                                         Due
                                     </div>
-                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                    <div class="col-md-3 col-xs-3 col-sm-6 bold-3">
                                         : <span class="fa fa-inr"></span> <span id="due">0.00</span>
                                     </div>
                                     <div class="col-md-3 col-xs-3 col-sm-6">
                                         Today payble
                                     </div>
-                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                    <div class="col-md-3 col-xs-3 col-sm-6 bold-3">
                                         : <span class="fa fa-inr"></span> <span id="today_payble">0.00</span>
                                     </div>
                                 </div>
-                                <hr/>
+                                <hr class="my-2">
                                 <div class="row">
                                     <div class="col-md-3 col-xs-3 col-sm-6 pt-2">
                                         Paid amount
@@ -135,7 +135,7 @@
                                     <div class="col-md-3 col-xs-3 col-sm-6">
                                         Remaining Due
                                     </div>
-                                    <div class="col-md-3 col-xs-3 col-sm-6">
+                                    <div class="col-md-3 col-xs-3 col-sm-6 bold-3">
                                         : <span class="fa fa-inr"></span> <span id="remaining_due">0.00</span>
                                     </div>
                                 </div>

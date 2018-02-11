@@ -1,6 +1,6 @@
 <% provide(:title,'Stock') %>
 <% provide(:stock,'active') %>
-<div class="main">
+<div class="main panel main-panel">
     <div class="action-part pr-4">
         <button class="btn btn-primary float-right" id="add_stock" data-toggle="modal" data-target="#new_stock_modal">Add stock</button>
     </div>
@@ -54,25 +54,34 @@
                             </div>
                         </div>
                         <div class="stock-products-container">
-                            <center><h5>Products</h5></center><hr>
+                           <h5>Products</h5><hr>
                             <div class="stock-products" id="stock_products">
-                                <div class="row mb-4">
-                                    <div class="col-md-2">
-                                        <%= label_tag(:product_id,'product') %>
-                                    </div>
-                                    <div class="col-md-4">
+                                <div class="row mb-4 product">
+                                    <div class="col-md-3">
+                                        <%= label_tag(:product_id,'select product') %>
                                         <%= select_tag(:product_id,'',class:'form-control product-id',name:'product[][product_id]',id:'') %>
                                     </div>
                                     <div class="col-md-2">
                                         <%= label_tag(:quantity) %>
+                                        <%= text_field_tag(:quantity,'',class:'form-control quantity',name:'product[][quantity]',id:'') %>
                                     </div>
-                                    <div class="col-md-3">
-                                        <%= text_field_tag(:quantity,'',class:'form-control',name:'product[][quantity]',id:'') %>
+                                    <div class="col-md-2">
+                                       <%= label_tag(:purchase_price) %>
+                                        <%= text_field_tag(:purchase_price,'',class:'form-control purchase',name:'product[][purchase_price]',id:'') %> 
                                     </div>
-                                    <div class="col-md-1">
-                                        <button class="btn btn-primary btn-pill p-2 add-prod" type="button"><span class="fa fa-plus"></span></button>
-                                        <button class="btn btn-danger btn-pill d-none del-prod p-2" type="button"><span class="fa fa-minus"></span></button>
+                                    <div class="col-md-2">
+                                       <%= label_tag(:profit,"profit(%)") %>
+                                        <%= text_field_tag(:profit,'',class:'form-control profit',name:'product[][profit]',id:'') %> 
                                     </div>
+                                    <div class="col-md-2">
+                                       <%= label_tag(:retail_price) %>
+                                        <%= text_field_tag(:retail_price,'',class:'form-control retail',name:'product[][retail_price]',id:'') %> 
+                                    </div>
+                                    <div class="col-md-1 pt-4">
+                                        <button class="btn btn-primary btn-pill p-2 add-prod mt-1" type="button"><span class="fa fa-plus"></span></button>
+                                        <button class="btn btn-danger btn-pill d-none del-prod p-2 mt-1" type="button"><span class="fa fa-minus"></span></button>
+                                    </div>
+                                    <div class="col-md-12"><span class="help-text "></span></div>
                                 </div>
                                 <!--   <table class="table table-bordered">
                                     <thead>
@@ -121,5 +130,23 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="modal fade" id="view_prod" data-current="">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 id="supplier_name">customer name</h5>
+                <h5 class="text-right"><span class="fa fa-inr"></span> <span id="total_price"></span></h5>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="stock_products_table" width="100%">
+                    <thead><th>Product id</th><th>Name</th><th>Unit price</th><th>Quantity</th></thead>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">close</button>
+            </div>
+        </div>    
     </div>
 </div>
