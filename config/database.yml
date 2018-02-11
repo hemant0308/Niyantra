@@ -50,5 +50,5 @@ test:
 production:
   <<: *default
   database: pathi-vyaparam_production
-  username: pathi-vyaparam
-  password: <%= ENV['PATHI-VYAPARAM_DATABASE_PASSWORD'] %>
+  username: root
+  password: <%= ENV['PATHI_VYAPARAM_DATABASE_PASSWORD'] %>
