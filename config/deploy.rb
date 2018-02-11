@@ -1,7 +1,7 @@
 # Change these
 server '159.89.190.190', port: 22, roles: [:web, :app, :db], primary: true
 set :application, "pathi-vyaparam"
-set :repo_url, "https://hemant0328@bitbucket.org/hemant0328/pathi-vyaparam.git"
+set :repo_url, "https://github.com/0x61636d2d69637063/pathi-vyaparam.git"
 set :user,            'niyantra'
 set :puma_threads,    [4, 16]
 set :puma_workers,    0
