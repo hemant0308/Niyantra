@@ -51,4 +51,4 @@ production:
   <<: *default
   database: pathi-vyaparam_production
   username: root
-  password: <%= ENV['PATHI_VYAPARAM_DATABASE_PASSWORD'] %>
+  password: nIyAntrAmysql
