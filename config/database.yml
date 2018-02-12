@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: pathi-vyaparam_production
+  database: pathi_vyaparam_production
   username: root
   password: nIyAntrAmysql
