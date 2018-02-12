@@ -7,7 +7,7 @@ class ProfileController < ApplicationController
 		end
 		if res
 			sign_in(user)
-			byebug
+			
 			flash[:notice] = 'updated successfully'
 			redirect_to root_path
 		end

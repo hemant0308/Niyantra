@@ -41,7 +41,7 @@ class StockController < ApplicationController
 				product = StockItem.new(product_params(product))
 				can_commit &= product.save
 				can_commit &= Product.where(["id = ?",product.product_id]).update_all(["quantity = quantity + ?,current_price = ?,purchase_price = ?",product.quantity,product.retail_price,product.purchase_price])
-				byebug	
+					
 			end
 			stock[:total_quantity] = total
 			can_commit &= stock.save

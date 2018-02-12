@@ -63,7 +63,7 @@ class ProductController < ApplicationController
 				helpers.make_barcode product
 			end
 		end
-		byebug
+		
 		properties = params[:product][:property]
 		if properties
 			properties.each do |key,val|
