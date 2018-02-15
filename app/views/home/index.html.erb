@@ -25,7 +25,16 @@
                             <li class="list-group-item list-group-item-danger">No purchases placed</li>
                         <% end %>
                     </ul>
+
+                <div class="link-div">
+                    <% if @bills.length >5 %>
+                        <%= link_to "view more" ,bills_path,class:'float-right' %>
+                    <% else %>
+                        <%= link_to "view past bills" ,bills_path,class:'float-right' %>
+                    <% end %>
                 </div>
+                </div>
+                
             </div>
         </div>
         <div class="col-md-4 col-sm-8">

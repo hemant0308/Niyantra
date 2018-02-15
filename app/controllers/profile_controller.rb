@@ -12,6 +12,9 @@ class ProfileController < ApplicationController
 			redirect_to root_path
 		end
 	end
+	def profile
+	end
+
 	private
 	def password_params
 		params.permit(:password,:password_confirmation)

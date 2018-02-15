@@ -81,10 +81,13 @@ var ready = function(){
     $('#view_trans').find('.modal-dialog').removeClass('modal-lg');
     $('#view_trans').modal('show');
   });
-  $('#customer_transaction').validate({
+  $('#customer_transaction').validate($.extend(validator_commons,{
     rules:{
-      'amount':{required:'true',lessThan:'#cust_due'}
+      'amount':{required:true,lessThan:'#cust_due'}
+    },
+    messages:{
+      'amount':{required:'please enter money',lessThan:"Money must be less than due."}
     }
-  });
+  }));
 }
 $(document).ready(ready)

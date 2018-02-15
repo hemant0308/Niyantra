@@ -22,7 +22,8 @@ Rails.application.routes.draw do
   get '/billing/get_customers' => 'billing#get_customers'
   get '/billing/get_product' => 'billing#get_product'
   get '/billing/receipt/:id' => 'billing#receipt'
-
+  get '/billing/bills' =>'billing#bills',:as=>'bills'
+  get '/billing/get_bills'=>'billing#get_bills'
 
   get '/customers'=>'customer#index'
   get '/get_customers' => 'customer#get_customers'
@@ -30,6 +31,7 @@ Rails.application.routes.draw do
   post '/customers/add_trans' => 'customer#add_transaction' ,:as=>'customer_transaction'
 
   post '/profile/password' => 'profile#update_password', :as=>'update_password' 
+  get '/profile' => 'profile#profile', :as=>'profile'
   #admin namespace
   namespace :admin do
     get '/controls', to: 'dashboard#index'

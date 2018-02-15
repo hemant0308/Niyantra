@@ -1,16 +1,33 @@
 var datatable;
 var AUTH_TOKEN;
+var validator_commons = {
+    errorClass: 'invalid-feedback',
+    validClass: 'is-valid',
+    focusCleanup: true,
+    onkeyup: false,
+    onfocusout: false,
+    focusInvalid: false,
+    highlight: function(ele, errorClass) {
+        $(ele).addClass('is-invalid');
+    },
+    unhighlight: function(ele) {
+        $(ele).removeClass('is-invalid is-valid');
+        var id = $.escapeSelector($(ele).attr('name'));
+        $('#' + id + '-error').remove();
+    },
+};
 var custom_ready = function() {
     $('.numerical').numeric();
     AUTH_TOKEN = $('meta[name=csrf-token]').attr('content');
     $('.loader').hide();
-    $('#password_form').validate({
+
+    $('#password_form').validate($.extend({
         rules: {
-            'old_password': { required: true },
+            'old': { required: true },
             'password': { required: true },
-            're_password': { required: true, equalTo: '#password' }
+            'password_confirmation': { required: true, equalTo: '#password' }
         },
-    });
+    }, validator_commons));
     $.validator.addMethod("greaterThan", function(value, element, param) {
         var $otherElement = $(param);
         return parseInt(value, 10) >= parseInt($otherElement.val(), 10);
@@ -18,7 +35,7 @@ var custom_ready = function() {
 
     $.validator.addMethod("lessThan", function(value, element, param) {
         var $otherElement = $(param);
-        return parseInt(value, 10) <= parseInt($otherElement.val(), 10);
+        return (parseInt(value, 10) <= parseInt($otherElement.val(), 10));
     }, "Wrong entry");
 
     $('.loader').addClass('d-none');
@@ -52,4 +69,42 @@ jQuery.fn.selectText = function() {
         selection.setBaseAndExtent(obj, 0, obj, 1);
     }
     return this;
+}
+
+function formatDate(date) {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    hours = makeTwo(hours);
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    var monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+];
+    return strTime + " " + makeTwo(date.getDate()) + " " + monthNames[date.getMonth()] + " " + date.getFullYear();
+}
+
+function makeTwo(data) {
+    data = parseInt(data);
+    return (data < 10) ? ('0' + data) : data;
+}
+$.fn.print = function() {
+
+    var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+
+    mywindow.document.write('<html><head><title>' + document.title + '</title>');
+    mywindow.document.write('<link href="assets/application.css"></head><body >');
+    mywindow.document.write('<h1>' + document.title + '</h1>');
+    mywindow.document.write($(this).html());
+    mywindow.document.write('</body></html>');
+
+    mywindow.document.close(); // necessary for IE >= 10
+    mywindow.focus(); // necessary for IE >= 10*/
+
+    mywindow.print();
+   mywindow.close();
+
+    return true;
 }

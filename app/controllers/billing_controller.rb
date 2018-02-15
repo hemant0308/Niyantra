@@ -163,6 +163,38 @@ class BillingController < ApplicationController
 		end
 		@shop = Shop.find_by(:id=>current_shop['id'])
 	end
+	def bills
+	end
+	def get_bills
+		length = params['length']
+		start = params['start']
+		search = params['search']['value']
+
+		if search != ''
+			search = " AND (customer_name like '%#{search}%' OR customer_phone like '%#{search}%') "
+		end
+		order = ''
+		params['order'].each do |key,val|
+			if val['column'].to_i == 0
+				dir = val['dir']
+				order = order + " customer_name "+dir
+			elsif val['column'].to_i == 4
+				dir = val['dir']
+				order = order + " created_at "+dir
+			end
+		end
+		if order==''
+			order = "created_at desc"
+		end
+		bills = Bill.select("id,customer_name,customer_phone,net_price,paid_amount,created_at").where(["shop_id = ? "+search,current_shop['id']]).order(order).limit(length).offset(start)
+		_bills = []
+		bills.each do |bill|
+			_bills.push([bill['customer_name'],bill['customer_phone'],bill['net_price'],bill['paid_amount'],bill['created_at'].to_time.to_i,bill['id']])
+		end
+		count = Bill.select("count(*) as count").where(["shop_id=?",current_shop['id']])
+		count = count[0]['count']
+		render :json=>{'data'=>_bills,'draw'=>params['draw'],'recorsTotal':count,'recordsFiltered':count}
+	end
 	private
 		def customer_params(customer)
 			customer.permit(:name,:phone,:email,:address)

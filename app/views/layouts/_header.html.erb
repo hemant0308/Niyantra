@@ -27,7 +27,7 @@
                         <span class="fa fa-user"></span> <%= current_user[:email] %>
                             </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <%= link_to '<i class="fa fa-user"></i> profile'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
+                    <%= link_to '<i class="fa fa-user"></i> profile'.html_safe, profile_path,class:'dropdown-item' %>
                         <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#password_modal"><i class="fa fa-key"></i>  Change password</a>
                         <%= link_to '<i class="fa fa-sign-out"></i> Sign out'.html_safe, destroy_user_session_path, :method => :delete,class:'dropdown-item' %>
                 </div>

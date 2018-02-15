@@ -77,10 +77,10 @@ class StockController < ApplicationController
 	end
 	def get_stock_products
 		id = params['stock_id']
-		stock_items = StockItem.joins(:product).select('products.id as id,products.name as name,products.current_price as price,stock_items.quantity as quantity').where(['stock_items.stock_id=?',id])
+		stock_items = StockItem.joins(:product).select('products.id as id,products.name as name,products.current_price as retail,products.purchase_price as purchase,stock_items.quantity as quantity').where(['stock_items.stock_id=?',id])
 		_stock_items = []
 		stock_items.each do |stock_item|
-			_stock_items.push([get_product_no(stock_item.id),stock_item.name,format_float(stock_item.price),stock_item.quantity]);
+			_stock_items.push([get_product_no(stock_item.id),stock_item.name,format_float(stock_item.retail),format_float(stock_item.purchase),stock_item.quantity]);
 		end
 		render 'json':{'data':_stock_items}
 	end

@@ -34,7 +34,7 @@
                 <div class="stock-form">
                     <%= form_for(:stock,method:'post',:html=>{'id':'stock_form'}) do |stock| %>
                         <div class="row">
-                            <div class="col-md-6 col-xs-4 col-sm-12">
+                            <div class="col-md-4 col-xs-4 col-sm-12">
                                 <div class="form-group">
                                     <%= stock.label(:supplier_id,'supplier name') %>
                                         <%= stock.select(:supplier_id,@suppliers) %>
@@ -141,7 +141,7 @@
             </div>
             <div class="modal-body">
                 <table class="table table-bordered" id="stock_products_table" width="100%">
-                    <thead><th>Product id</th><th>Name</th><th>Unit price</th><th>Quantity</th></thead>
+                    <thead><th>Product id</th><th>Name</th><th>Retail price</th><th>Purchase price</th><th>Quantity</th></thead>
                 </table>
             </div>
             <div class="modal-footer">

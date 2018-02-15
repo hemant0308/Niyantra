@@ -1,5 +1,5 @@
- <div class="container">
-  <div class="receipt">
+ <div class="main">
+  <div class="receipt panel">
     <div class="main-header">Bill Receipt</div>
     <hr>
     <div class="receipt-header">
@@ -40,7 +40,7 @@
     	</div>
       <hr>
       <div class="action-part mt-3">
-        <center><a class="btn btn-info py-2" href="/billing"><span class="fa fa-chevron-circle-left"></span> &nbsp;back</a></center>
+        <center><a class="btn btn-info py-2" href="/billing"><span class="fa fa-plus"></span> &nbsp;new bill</a><a class="btn btn-info py-2 ml-4" href="/billing/bills"><span class="fa fa-eye"></span> &nbsp;view bills</a><button class="btn btn-primary py-2 ml-4" onclick="$('.receipt').print()"><span class="fa fa-print"></span> &nbsp;print</button></center>
       </div>
     </div>
 </div>

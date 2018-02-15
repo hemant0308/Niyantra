@@ -4,4 +4,12 @@
 .row-1 .card{
 	min-height: 320px;
 	border: solid #697481 1.5px;
+	position: relative;
+	.link-div{
+		position: absolute;
+    	bottom: 10px;
+    	right: 10px;
+    	font-weight: 500;
+	}
 }
+
