@@ -28,7 +28,7 @@ class ProductController < ApplicationController
 				if offer_type==1
 					offer = offer.to_s+'%'
 				elsif offer_type == 2
-					offer = format_float(offer)
+					offer = (offer)
 				end	
 			end
 			product_properties = product.product_properties

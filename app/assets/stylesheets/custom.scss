@@ -35,9 +35,26 @@ body{
 	background-color: #007bff1a;
 }
 .main{
-	margin: 20px 40px;
-	padding: 10px 20px;
+	margin: 20px 5px;
+	padding: 10px 5px;
 }
+.action-part{
+	display: block;
+	margin-bottom: 10px;
+	height: 40px;
+}
+@media only screen and (min-width: 768px){
+	.main{
+		margin: 20px 40px;
+		padding: 10px 20px;
+	}
+	.action-part{
+		button{
+			margin: auto;
+		}
+	}
+}
+
 .panel{
 	background-color: var(--white);
 	border-radius: 10px;
@@ -181,5 +198,13 @@ table.dataTable>tbody>tr>td{
 	.modal-dialog.modal-lg{
 		min-width: 	1000px;
 		margin: 20px auto;
+	}
+
+}
+@media only screen and (max-width: 768px){
+	.modal{
+		.modal-dialog.modal-lg{
+			min-width:300px !important; 
+		}
 	}
 }

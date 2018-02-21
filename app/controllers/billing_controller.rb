@@ -171,7 +171,7 @@ class BillingController < ApplicationController
 		search = params['search']['value']
 
 		if search != ''
-			search = " AND (customer_name like '%#{search}%' OR customer_phone like '%#{search}%') "
+			search = " AND (customer_name like '%#{search}%' OR customer_phone like '%#{search}%' OR DATE(created_at) = '#{search}') "
 		end
 		order = ''
 		params['order'].each do |key,val|
@@ -193,7 +193,7 @@ class BillingController < ApplicationController
 		end
 		count = Bill.select("count(*) as count").where(["shop_id=?",current_shop['id']])
 		count = count[0]['count']
-		render :json=>{'data'=>_bills,'draw'=>params['draw'],'recorsTotal':count,'recordsFiltered':count}
+		render :json=>{'data'=>_bills,'draw'=>params['draw'],'recordsTotal':count,'recordsFiltered':count}
 	end
 	private
 		def customer_params(customer)

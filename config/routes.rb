@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/products' => 'product#index'
   post '/products' => 'product#create'
   get '/product/get_properties' => 'product#get_properties'
-  post '/get_products' => 'product#get_products'
+  get '/get_products' => 'product#get_products'
   get '/product/get_product_info' => 'product#get_product_info'
   post '/product/delete' => 'product#delete'
 
@@ -27,7 +27,8 @@ Rails.application.routes.draw do
 
   get '/customers'=>'customer#index'
   get '/get_customers' => 'customer#get_customers'
-  get '/customers/get_transactions' => 'customer#get_transactions'
+  get '/customers/get_transactions' => 'customer#get_transactions' 
+  get '/customers/:id' => 'customer#transactions' ,:as=>'show_transactions'
   post '/customers/add_trans' => 'customer#add_transaction' ,:as=>'customer_transaction'
 
   post '/profile/password' => 'profile#update_password', :as=>'update_password' 

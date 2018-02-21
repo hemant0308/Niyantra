@@ -6,7 +6,7 @@ class CustomerController < ApplicationController
     result = []
     _customers.each do |customer|
       customer = customer.attributes
-      last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer['id'],current_shop['id']]).order(created_at: :desc).reorder(id: :desc).limit(1)
+      last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer['id'],current_shop['id']]).order(id: :desc).limit(1)
       due = 0.0
       if last_transaction.length > 0
         due = last_transaction[0].due
@@ -16,10 +16,27 @@ class CustomerController < ApplicationController
     end
     render 'json':{'data':result}
   end
+  def transactions
+    customer = Customer.find(params[:id])
+    @customer_name = customer.name;
+    last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',params[:id],current_shop['id']]).order(id: :desc).limit(1)
+    @customer_due = 0.0;
+    if(last_transaction)
+      @customer_due = last_transaction[0]['due'].to_i;
+    end
+    @customer_due = format_float(@customer_due)
+  end
   def get_transactions
+    length = params['length']
+    start = params['start']
+    search = params['search']['value']
+
+    if search != ''
+      search = " AND (DATE(created_at) = '#{search}') "
+    end
     customer_id = params[:id]
     shop_id = current_shop['id']
-    transactions = CustomerTransaction.select('*').where(["customer_id = ? AND shop_id = ?",customer_id,shop_id]).order(created_at: :desc).reorder(id: :desc)
+    transactions = CustomerTransaction.select('*').where(["customer_id = ? AND shop_id = ? "+search,customer_id,shop_id]).order(id: :DESC)
     result = []
     transactions.each do |transaction|
       description = ''
@@ -32,16 +49,17 @@ class CustomerController < ApplicationController
       else
         description = "Paid manually"
       end
-        
-      result.push([format_date(transaction.created_at),description,format_float(transaction.amount),format_float(transaction.due)])
+      result.push([transaction.created_at.to_time.to_i,description,format_float(transaction.amount),format_float(transaction.due)])
     end
-    render json:{'data':result}
+    count = CustomerTransaction.select("count(*) as count").where(["shop_id=? AND customer_id = ?",current_shop['id'],customer_id])
+    count = count[0]['count'] 
+    render :json=>{'data'=>result,'draw'=>params['draw'],'recordsTotal':count,'recordsFiltered':count}
   end
   def add_transaction
     customer_id = params[:customer_id]
     amount = params[:amount].to_i
-    desc = params[:desc]
-    last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer_id,current_shop['id']]).order(created_at: :desc).reorder(id: :desc).limit(1)
+    description = params[:description]
+    last_transaction = CustomerTransaction.select('due').where(['customer_id = ? AND shop_id = ?',customer_id,current_shop['id']]).order(id: :desc).limit(1)
     due = 0.00
     if last_transaction.length > 0 
       due = last_transaction[0][:due].to_i
@@ -51,7 +69,7 @@ class CustomerController < ApplicationController
     shop_id = current_shop['id']
     customer_transaction = CustomerTransaction.new(:due=>due,:amount=>amount,:customer_id=>customer_id,:shop_id=>shop_id)
     if customer_transaction.save
-      redirect_to customers_path,:notice=>'customer amount updated !'
+      redirect_to show_transactions_path customer_id,:notice=>'customer amount updated !'
     else
     end
   end

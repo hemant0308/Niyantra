@@ -13,13 +13,17 @@
 //= require rails-ujs
 //= require jquery3
 //= require jquery-ui
+//= require bootstrap
 //= require jquery.validate.min
 //= require numeric
-//= require datatables.min
+//= require jquery.datatables.min
+//= require bootstrap.datatables.min
+//= require datatables.responsive.min
+//= datatables.bootstrap.responsive.min
 //= require select2.full.min
 //= require popper
-//= require bootstrap
-//= require shards
+//= require datepicker
+// require shards
 //= require shortcut
-//= require demo
+// require demo
 //= require custom

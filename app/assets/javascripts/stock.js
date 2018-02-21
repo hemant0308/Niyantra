@@ -125,6 +125,7 @@ ready = function() {
         }
     }
     datatable = $('#stock_table').DataTable({
+         "responsive":true,
         ajax: {
             url: '/getstocks',
             type: 'POST',

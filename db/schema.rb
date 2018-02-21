@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180210125412) do
+ActiveRecord::Schema.define(version: 20180220033532) do
 
   create_table "bill_items", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "bill_id"
@@ -233,6 +233,15 @@ ActiveRecord::Schema.define(version: 20180210125412) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "type_brands", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "types_id"
+    t.bigint "brands_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["brands_id"], name: "index_type_brands_on_brands_id"
+    t.index ["types_id"], name: "index_type_brands_on_types_id"
+  end
+
   create_table "types", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.text "description"
@@ -285,5 +294,7 @@ ActiveRecord::Schema.define(version: 20180210125412) do
   add_foreign_key "stocks", "shops"
   add_foreign_key "stocks", "suppliers"
   add_foreign_key "stocks", "users"
+  add_foreign_key "type_brands", "brands", column: "brands_id"
+  add_foreign_key "type_brands", "types", column: "types_id"
   add_foreign_key "users", "shops"
 end

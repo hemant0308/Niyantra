@@ -48,14 +48,15 @@ var ready = function() {
         $('#properties_table').parent().removeClass('d-none');
     }
     $('#product_table').DataTable({
+        responsive:true,
         ajax: {
             url: '/get_products',
-            type: 'POST',
+            type: 'GET',
             data: { 'authenticity_token': AUTH_TOKEN }
         },
         "columnDefs": [{
                 "render": function(data,type,row){
-                 return "<form method='post' class='inline' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
+                 return "<form method='post' class='inline' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' class`='hd_prod_id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
                 "targets": -1,
             },
             {
@@ -74,11 +75,11 @@ var ready = function() {
             }
         ],
         "createdRow": function(row, data, dataIndex) {
-            $(row).data('id', data[data.length - 1]);
+            
         }
     });
     $(document).on('click','.edit-prod',function(){
-      var id = $(this).closest('tr').data('id');
+      var id = $('.hd_prod_id').val();
       $.ajax({
         url : '/product/get_product_info',
         data : 'id='+id,
