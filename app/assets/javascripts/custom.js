@@ -99,7 +99,7 @@ $.fn.print = function(css = "") {
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
     mywindow.document.write('<html><head><title>' + document.title + '</title>');
-    mywindow.document.write('<link href="' + css + '" rel="stylesheet"></head><body >');
+    mywindow.document.write('<style>.receipt.print { width: 300px; margin: auto; } .receipt.print .main-header { text-align: center; } .receipt.print .receipt-header { text-align: center; } .receipt.print table { border: 0; border-collapse: separate; border-spacing: 0 5px; } .receipt.print table > thead { border-bottom: .5px solid black; } .receipt.print thead > tr > th:nth-child(3), .receipt.print tbody > tr > td:nth-child(3) { display: none; } .receipt.print .action-part { display: none; } .receipt.print table { width: 100%; margin-bottom: 5px; border-bottom: .1px solid black; }.barcodes.print { width: 210mm; margin: auto; } .barcodes.print .barcode { border: .5mm solid black; height: 120px; width: 45mm; display: inline-block; text-align: center; margin-bottom: 5px; } </style></head><body >');
     mywindow.document.write('<h1>' + document.title + '</h1>');
     mywindow.document.write($(p)[0].outerHTML);
     mywindow.document.write('</body></html>');
