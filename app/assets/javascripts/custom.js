@@ -92,21 +92,27 @@ function makeTwo(data) {
 }
 $.fn.print = function(css = "") {
 
+    var p = $(this).clone();
+
+    $(p).addClass('print');
+
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
     mywindow.document.write('<html><head><title>' + document.title + '</title>');
     mywindow.document.write('<link href="' + css + '" rel="stylesheet"></head><body >');
     mywindow.document.write('<h1>' + document.title + '</h1>');
-    mywindow.document.write($(this)[0].outerHTML);
+    mywindow.document.write($(p)[0].outerHTML);
     mywindow.document.write('</body></html>');
 
     // necessary for IE >= 10*/
 
+    
     setTimeout(function() {
         mywindow.document.close(); // necessary for IE >= 10
         mywindow.focus(); // necessary for IE >= 10*/
         mywindow.print();
         mywindow.close();
     }, 2000);
+    
     return true;
 }

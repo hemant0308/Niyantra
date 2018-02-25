@@ -1,4 +1,4 @@
-.receipt {
+.receipt.print {
     width: 300px;
     margin: auto;
     .main-header {
@@ -29,16 +29,15 @@
     }
 }
 
-.barcodes {
+.barcodes.print {
     width: 210mm;
     margin: auto;
-}
-
-.barcode {
-    border: .5mm solid black;
-    height: 120px;
-    width: 45mm;
-    display: inline-block;
-    text-align: center;
-    margin-bottom: 5px;
+    .barcode {
+        border: .5mm solid black;
+        height: 120px;
+        width: 45mm;
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 5px;
+    }
 }
