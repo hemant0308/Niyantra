@@ -133,7 +133,7 @@ ready = function() {
         },
         "columnDefs": [{
                 "render": function(data, type, row) {
-                    return "<btn class='btn btn-success view-prod p-2'>view</div>";
+                    return "<div class='table-btn-container'><div class='table-btn view-prod'><span class='fa fa-product-hunt text-primary'></span></div><div class='table-btn view-barcodes'><span class='fa fa-barcode text-info'></span></div></div>";
                 },
                 "targets": -1,
             },
@@ -183,6 +183,35 @@ ready = function() {
 
         $('#view_prod').modal('show');
     });
+    $(document).on("click",".view-barcodes",function(){
+        var id = $(this).closest('tr').data('id');
+        $.ajax({
+            url: "/stock/get_barcodes",
+            method: "GET",
+            data: {stock_id:id},
+            dataType: 'json',
+            success: function(data) {
+                data = data.data;
+                var html = "";
+               for(var i=0;i<data.length;i++){
+                    code = data[i][0];
+                    name = data[i][1];
+                    count = data[i][2];
+                    for(var j=0;j<count;j++){
+                        html += "<div class='barcode'><img src='/barcodes/"+code+".png'><div class='code'>"+code+"</div><div class='title'>"+name+"</div></div>";
+                    }
+                    
+               }
+               $('.barcodes').html(html);
+               $('#barcodes').modal('show');
+            }
+        })
+            
+        $('#barcodes').modal('show');
+    });
+    $('#print_barcodes').on('click',function(){
+        $('.barcodes').print("/assets/print.scss");
+    })
 
 }
 $(document).ready(ready);

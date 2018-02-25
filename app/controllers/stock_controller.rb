@@ -84,6 +84,15 @@ class StockController < ApplicationController
 		end
 		render 'json':{'data':_stock_items}
 	end
+	def get_stock_barcodes
+		id = params['stock_id']
+		stock_items = StockItem.joins(:product).select('products.id as id,products.name as name,stock_items.quantity as count').where(['stock_items.stock_id=?',id])
+		_stock_items = []
+		stock_items.each do |stock_item|
+			_stock_items.push([get_product_no(stock_item.id),stock_item.name,stock_item.count]);
+		end
+		render 'json':{'data':_stock_items}
+	end
 	private
 		def stock_params
 			params.require(:stock).permit(:supplier_id,:total_price,:paid_amount)

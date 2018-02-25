@@ -17,5 +17,8 @@ class HomeController < ApplicationController
 		shop_id = current_shop['id']
 		total_due = connection.exec_query("SELECT SUM(due) as due FROM customer_transactions where id in(select max(id) from customer_transactions where shop_id = 1 group by customer_id)")
 		@total_due =format_float(total_due.rows[0][0])
+		if(!@total_due)
+			@total_due = 0
+		end
 	end
 end

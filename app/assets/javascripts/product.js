@@ -56,7 +56,7 @@ var ready = function() {
         },
         "columnDefs": [{
                 "render": function(data,type,row){
-                 return "<form method='post' class='inline' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' class`='hd_prod_id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
+                 return "<form method='post' class='inline' action='/product/delete'><input type='hidden' name='authenticity_token' value='"+AUTH_TOKEN+"'><input type='hidden' name='id' class='hd_prod_id' value='"+data+"'><div class='table-btn edit-prod'><span class='fa fa-pencil-square-o text-success'></span></div><div class='table-btn del-prod'><span class='fa fa-trash-o text-info'></span></div></form>";},
                 "targets": -1,
             },
             {
@@ -79,7 +79,7 @@ var ready = function() {
         }
     });
     $(document).on('click','.edit-prod',function(){
-      var id = $('.hd_prod_id').val();
+      var id = $(this).closest('td').find('.hd_prod_id').val();
       $.ajax({
         url : '/product/get_product_info',
         data : 'id='+id,

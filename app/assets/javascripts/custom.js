@@ -90,21 +90,23 @@ function makeTwo(data) {
     data = parseInt(data);
     return (data < 10) ? ('0' + data) : data;
 }
-$.fn.print = function() {
+$.fn.print = function(css = "") {
 
     var mywindow = window.open('', 'PRINT', 'height=400,width=600');
 
     mywindow.document.write('<html><head><title>' + document.title + '</title>');
-    mywindow.document.write('<link href="assets/application.css"></head><body >');
+    mywindow.document.write('<link href="' + css + '" rel="stylesheet"></head><body >');
     mywindow.document.write('<h1>' + document.title + '</h1>');
-    mywindow.document.write($(this).html());
+    mywindow.document.write($(this)[0].outerHTML);
     mywindow.document.write('</body></html>');
 
-    mywindow.document.close(); // necessary for IE >= 10
-    mywindow.focus(); // necessary for IE >= 10*/
+    // necessary for IE >= 10*/
 
-    mywindow.print();
-   mywindow.close();
-
+    setTimeout(function() {
+        mywindow.document.close(); // necessary for IE >= 10
+        mywindow.focus(); // necessary for IE >= 10*/
+        mywindow.print();
+        mywindow.close();
+    }, 2000);
     return true;
 }

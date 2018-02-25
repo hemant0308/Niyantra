@@ -22,7 +22,6 @@ class BillingController < ApplicationController
 				customer_id = 1
 				customer = bill[:customer]
 			end
-			paid_amount = bill[:paid_amount]
 			bill = Bill.new
 			bill[:customer_name] = customer[:name]
 			bill[:customer_phone] = customer[:phone]
@@ -71,7 +70,10 @@ class BillingController < ApplicationController
 			total_price = params[:bill][:total]
 			total_offer = params[:bill][:offer]
 			total_net_price = total_price.to_f-total_offer.to_f
-			
+			paid_amount = bill[:paid_amount]
+			if !noted_customer
+				paid_amount = total_net_price
+			end
 			can_commit &= bill.update(:net_price=>total_net_price,:total_price=>total_price,:offer=>total_offer,:paid_amount=>paid_amount)
 
 			if noted_customer
@@ -189,6 +191,12 @@ class BillingController < ApplicationController
 		bills = Bill.select("id,customer_name,customer_phone,net_price,paid_amount,created_at").where(["shop_id = ? "+search,current_shop['id']]).order(order).limit(length).offset(start)
 		_bills = []
 		bills.each do |bill|
+			if(bill['customer_name'] == "")
+				bill['customer_name'] = "unknown customer"
+			end
+			if(!bill['paid_amount'])
+				bill['paid_amount'] = bill['net_price']
+			end 
 			_bills.push([bill['customer_name'],bill['customer_phone'],bill['net_price'],bill['paid_amount'],bill['created_at'].to_time.to_i,bill['id']])
 		end
 		count = Bill.select("count(*) as count").where(["shop_id=?",current_shop['id']])

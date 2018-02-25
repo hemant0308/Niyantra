@@ -1,48 +1,75 @@
 // Place all the styles related to the stock controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.stock-container{
-	padding: 10px 20px;
+.stock-container {
+    padding: 10px 20px;
 }
-.stock-product{
-	border: solid 1px #5A6169;
-	padding: 5px;
-	border-radius: 5px;
+
+.stock-product {
+    border: solid 1px #5A6169;
+    padding: 5px;
+    border-radius: 5px;
 }
-.stock-form{
-	margin: 10px;
+
+.stock-form {
+    margin: 10px;
 }
-.form-control{
-	font-size: 15px;
-	padding: 4px 8px;
-	padding-left: 10px;
-	margin: 5px;
-	display: inline;
-	font-weight: 700;
+
+.form-control {
+    font-size: 15px;
+    padding: 4px 8px;
+    padding-left: 10px;
+    margin: 5px;
+    display: inline;
+    font-weight: 700;
 }
-select.form-control{
-	padding: 0px 2px;
-	padding-left: 5px;
-	height: 1.75rem !important;
+
+select.form-control {
+    padding: 0px 2px;
+    padding-left: 5px;
+    height: 1.75rem !important;
 }
-.form-group label{
-	font-size: 15px;
-	margin-left: 10px;
-	margin-top: 5px;
+
+.form-group label {
+    font-size: 15px;
+    margin-left: 10px;
+    margin-top: 5px;
 }
-.stock-products-container{
-	.stock-products{
-		max-height: 40vh;
-		overflow-y:scroll;
-		padding: 5px 10px;
-	}
-	.help-text{
-		color: #28a745;
-		font-size: 80%;
-		width: 100%;
-		margin-top: 0.25rem;
-	}
+
+.stock-products-container {
+    .stock-products {
+        max-height: 40vh;
+        overflow-y: scroll;
+        padding: 5px 10px;
+    }
+    .help-text {
+        color: #28a745;
+        font-size: 80%;
+        width: 100%;
+        margin-top: 0.25rem;
+    }
 }
-.table tr td,.table tr th{
-	text-align: center;
+
+.table tr td,
+.table tr th {
+    text-align: center;
+}
+
+#barcodes {
+    .barcodes {
+        width: 210mm;
+        margin: auto;
+
+        height: 80vh;
+        min-height: 400px;
+        overflow-y: scroll;
+    }
+    .barcode {
+        border: .5mm solid black;
+        height: 120px;
+        width: 45mm;
+        display: inline-block;
+        text-align: center;
+        margin-bottom: 5px;
+    }
 }

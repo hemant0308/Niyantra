@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   post '/getstocks' => 'stock#get_stocks'
   get '/stock/getproducts' => 'stock#get_products'
   get '/stock/get_stock_products' => 'stock#get_stock_products'
-
+  get '/stock/get_barcodes' => 'stock#get_stock_barcodes'
   get '/billing'=>'billing#new'
   post '/billing'=>'billing#create'
   get '/billing/get_customers' => 'billing#get_customers'
@@ -33,6 +33,7 @@ Rails.application.routes.draw do
 
   post '/profile/password' => 'profile#update_password', :as=>'update_password' 
   get '/profile' => 'profile#profile', :as=>'profile'
+  post '/profile' => 'profile#update', :as=>'update_profile'
   #admin namespace
   namespace :admin do
     get '/controls', to: 'dashboard#index'

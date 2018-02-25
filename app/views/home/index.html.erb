@@ -14,7 +14,7 @@
                     	<% @bills.each do |bill| %>
                     	<li class="list-group-item list-group-item-<%= colors[i%2] %>" >
                     		<div class="row">
-                    		<div class="col-md-6 bold-2"><%= bill['customer_name'].capitalize %></div>
+                    		<div class="col-md-6 bold-2"><%= ((bill['customer_name']!='')?bill['customer_name']:"unknown customer").capitalize %></div>
                     		<div class="col-md-6 bold-4 text-right"><span class="fa fa-inr"></span> <%= format_float(bill['net_price']) %></div>	
                     		</div>
                     		

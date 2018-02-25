@@ -1,3 +1,5 @@
+ <% provide(:title,"receipt") %>
+ <% provide(:billing,"active") %>
  <div class="main">
   <div class="receipt panel">
     <div class="main-header">Bill Receipt</div>
@@ -35,12 +37,14 @@
     <div class="receipt-footer">
     	<div class="row">
     		<div class="col"><span class="label-font">Total : </span> <span class="font-3"><span class="fa fa-inr"></span> <%= format_float @bill.net_price %></span></div>
-    		<div class="col text-right"><span class="label-font">Paid amount : </span><span><span class="fa fa-inr"></span> <%= format_float @bill.paid_amount %></span></div>
+    		<div class="col text-right"><span class="label-font">Paid amount : </span><span><span class="fa fa-inr"></span> <%= format_float ((@bill.paid_amount)?(@bill.paid_amount):(@bill.net_price)) %></span></div>
 
     	</div>
       <hr>
       <div class="action-part mt-3">
-        <center><a class="btn btn-info py-2" href="/billing"><span class="fa fa-plus"></span> &nbsp;new bill</a><a class="btn btn-info py-2 ml-4" href="/billing/bills"><span class="fa fa-eye"></span> &nbsp;view bills</a><button class="btn btn-primary py-2 ml-4" onclick="$('.receipt').print()"><span class="fa fa-print"></span> &nbsp;print</button></center>
+        <center><a class="btn btn-info py-2" href="/billing"><span class="fa fa-plus"></span> &nbsp;new bill</a><a class="btn btn-info py-2 ml-4" href="/billing/bills"><span class="fa fa-eye"></span> &nbsp;view bills</a><button class="btn btn-primary py-2 ml-4" id="print_receipt"><span class="fa fa-print"></span> &nbsp;print</button></center>
       </div>
     </div>
 </div>
+
+<script type="text/javascript" src="/assets/receipt.js"></script>

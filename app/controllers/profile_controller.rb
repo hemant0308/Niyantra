@@ -13,8 +13,19 @@ class ProfileController < ApplicationController
 		end
 	end
 	def profile
-	end
+		@shopname = current_shop['name']
+		@name = current_user.name
 
+	end
+	def update
+		name = params[:name]
+		shopname = params[:shopname]
+		current_user.name = name
+		res = Shop.update(current_shop['id'],:name=>shopname)
+		current_user.save
+		session[:shop] = res
+		redirect_to profile_path
+	end
 	private
 	def password_params
 		params.permit(:password,:password_confirmation)
