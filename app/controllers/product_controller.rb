@@ -45,10 +45,7 @@ class ProductController < ApplicationController
 		render 'json':{'data':_products}
 	end
 	def create
-		if (params[:product][:brand_id].class == "str".class)
-			brand = Brand.create(name: params[:product][:brand_id])
-			params[:product][:brand_id] = brand.id
-		end
+		
 		params[:product][:shop_id] = current_shop['id']
 		product = params[:product]
 		can_commit = true

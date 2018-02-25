@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'home#index'
   get '/home'=>'home#index'
 
-  get '/products' => 'product#index'
+  get '/products' => 'product#index',:as=>"products"
   post '/products' => 'product#create'
   get '/product/get_properties' => 'product#get_properties'
   get '/get_products' => 'product#get_products'

@@ -131,6 +131,7 @@ ready = function() {
             type: 'POST',
             data: { 'authenticity_token': AUTH_TOKEN }
         },
+        aaSorting: [[5, 'desc']],
         "columnDefs": [{
                 "render": function(data, type, row) {
                     return "<div class='table-btn-container'><div class='table-btn view-prod'><span class='fa fa-product-hunt text-primary'></span></div><div class='table-btn view-barcodes'><span class='fa fa-barcode text-info'></span></div></div>";
@@ -144,7 +145,7 @@ ready = function() {
                 "targets": -2
             },
             {
-                "targets": [0, 5],
+                "targets": [0,1,2,3,4,5],
                 "orderable": false
             },
         ],
