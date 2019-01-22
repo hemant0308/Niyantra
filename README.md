@@ -1,3 +1,6 @@
-# Pathi Vyaparam
-
-All we are trying to do here is a simple cotton business and nothing more
+# Billing System for Cloth showroom.
+**A pet project for learning Ruby and rails**
+###### Features
+* Stock management
+* Billing management
+* Lending management
